@@ -7,6 +7,7 @@ error_messages = {
     "no_name_and_phones": "Give me name, phone to update and new phone please.",
     "no_contact": "There is no such contact in your phone book.",
     "no_contacts": "There are no contacts in your phone book yet.",
+    "exist_contact": "Contact already exists.",
     "no_name_and_birthday": "Give me name and birthday please.",
 }
 
