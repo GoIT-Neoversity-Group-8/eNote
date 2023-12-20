@@ -12,14 +12,9 @@ def bot_hello(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def add_contact(args, book: AddressBook):
+    name = args[0]
     # TODO implementation
-    name     = args[0]
-    phone    = args[1] if len(args) > 1 else None
-    email    = args[2] if len(args) > 2 else None
-    birthday = args[3] if len(args) > 3 else None
-    address  = args[4] if len(args) > 4 else None
-    note     = args[5] if len(args) > 5 else None
-    book.add_contact(name, phone, birthday, email, address, note)
+    book.add_contact(name)
     print(command_messages["contact_added"])
 
 

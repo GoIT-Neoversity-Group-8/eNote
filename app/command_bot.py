@@ -6,15 +6,7 @@ from utils.input_handlers import parse_input
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.formatted_text import HTML
-import shlex
 
-@input_error(error_messages["no_command"])
-def parse_input(user_input):
-    # cmd, *args = user_input.split()
-    # cmd, *args = re.findall(r"([\w@\-\.]+)|'(.*?)'|\"(.*?)\"", user_input)
-    cmd, *args = shlex.split(user_input)
-    cmd = cmd.strip().lower()
-    return cmd, *args
 
 class CommandCompleter(Completer):
     def get_completions(self, document, complete_event):
