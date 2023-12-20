@@ -51,7 +51,7 @@ command_info = {
     },
     'add-contact': {
         'function': add_contact,
-        'example': "add-contact 'John Doe' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
+        'example': "add-contact 'John' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
         'description': command_descriptions["add_contact"],
         'parameters': ['{name}','{newPhone}','{birthday}','{email}','{addres}'],
     },
@@ -63,7 +63,7 @@ command_info = {
     },
     'add-phone': {
         'function': add_phone,
-        'example': "add-phone 'John Doe' '987-654-3210'",
+        'example': "add-phone 'John' '987-654-3210'",
         'description': command_descriptions["add_phone"],
         'parameters': ['{name}','{newPhone}'],
     },
@@ -75,13 +75,13 @@ command_info = {
     },
     'add-birthday': {
         'function': add_birthday,
-        'example': "add-birthday 'John Doe' '01-01-1990'",
+        'example': "add-birthday 'John' '01-01-1990'",
         'description': command_descriptions["add_birthday"],
         'parameters': ['{name}','{birthday}'],
     },
     'show-birthday': {
         'function': show_birthday,
-        'example': "show-birthday 'John Doe'",
+        'example': "show-birthday 'John'",
         'description': command_descriptions["show_birthday"],
         'parameters': ['{name}'],
     },
@@ -99,27 +99,45 @@ command_info = {
     },
     'update-contact': {
         'function': update_contact,
-        'example': "update-contact 'John Doe' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
+        'example': "update-contact 'John' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
         'description': command_descriptions["update_contact"],
         'parameters':  ['{name}','{newPhone}','{birthday}','{email}','{addres}'],
     },
     'delete-contact': {
         'function': delete_contact,
-        'example': "delete-contact 'John Doe'",
+        'example': "delete-contact 'John'",
         'description': command_descriptions["delete_contact"],
         'parameters': ['{name}'],
     },
     'add-note': {
         'function': add_note,
-        'example': "add-note 'John Doe' 'Meeting at 5 PM'",
+        'example': "add-note 'John' 'Reminder' 'Meeting at 5 PM'",
         'description': command_descriptions["add_note"],
-        'parameters': ['{name}', '{text}'],
+        'parameters': ['{name}', '{tag}', '{message}'],
     },
     'edit-note': {
         'function': add_note,
-        'example': "edit-note 'John Doe' 0 'Updated meeting at 6 PM'",
+        'example': "edit-note 'John' 'Reminder' 'Updated meeting at 6 PM'",
         'description': command_descriptions["edit_note"],
-        'parameters': ['{name}', '{text}'],
+        'parameters': ['{name}', '{tag}', '{message}'],
+    },
+    'find-notes-by-tag': {
+        'function': find_note_by_tag,
+        'example': "find-notes-by-tag 'Reminder'",
+        'description': command_descriptions["find_note_by_tag"],
+        'parameters': ['{tag}'],
+    },
+    'find-notes': {
+        'function': find_notes,
+        'example': "find-notes 'search text'",
+        'description': command_descriptions["find_notes"],
+        'parameters': ['{search text}'],
+    },
+    'delete-note': {
+        'function': delete_note,
+        'example': "fdelete-note 'John'",
+        'description': command_descriptions["delete_note"],
+        'parameters': ['{name}'],
     },
 }
 
