@@ -9,6 +9,8 @@ error_messages = {
     "no_contacts": "There are no contacts in your phone book yet.",
     "exist_contact": "Contact already exists.",
     "no_name_and_birthday": "Give me name and birthday please.",
+    "no_name_and_note_data": "Give me name, note tag and message, please.",
+    "no_note_tag": "Give me note tag , please.",
 }
 
 # -- Validation error messages
@@ -29,6 +31,14 @@ command_messages = {
     "email_added": "Email added",
     "birthday_added": "Birthday added",
     "note_added": "Tag added",
+    "enter_phone": "Please enter phone (n - next, e - exit contact): ",
+    "enter_email": "Please enter email (n - next, e - exit contact): ",
+    "enter_address": "Please enter address (n - next, e - exit contact): ",
+    "enter_birthday": "Please enter birthday (n - next, e - exit contact): ",
+    "enter_note": "Please enter note (n - next, e - exit contact): ",
+    "enter_tag": "Please enter tag (n - next, e - exit contact): ",
+    "prompt_edit_contact": "Contact with {name} already exists. Do you want to edit it?: ",
+    "prompt_add_contact": "There is no contact with name {name}. Do you want to add it?: ",
     "good_bye": "Good bye!",
 }
 
@@ -56,4 +66,7 @@ command_descriptions = {
     "delete_contact": "Delete a contact by name.",
     "add_note": "Add a note to a specific contact.",
     "edit_note": "Edit a specific note of a contact.",
+    "find_note_by_tag": "Find notes by tag",
+    "find_notes": "Find notes by search text",
+    "delete_note": "Delete a note by contact name",
 }
