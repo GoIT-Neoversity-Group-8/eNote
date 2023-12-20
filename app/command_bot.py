@@ -6,10 +6,13 @@ from utils.commands import handle_command, command_keys, command_parameters
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.formatted_text import HTML
+import shlex
 
 @input_error(error_messages["no_command"])
 def parse_input(user_input):
-    cmd, *args = user_input.split()
+    # cmd, *args = user_input.split()
+    # cmd, *args = re.findall(r"([\w@\-\.]+)|'(.*?)'|\"(.*?)\"", user_input)
+    cmd, *args = shlex.split(user_input)
     cmd = cmd.strip().lower()
     return cmd, *args
 
@@ -39,7 +42,10 @@ def address_book_bot():
     
     while True:
         user_input = session.prompt(command_messages["enter_command"])        
-        command, *args = parse_input(user_input)
+        try:
+            command, *args = parse_input(user_input)
+        except:
+            continue
 
         if command in ["close", "exit"]:
             print(command_messages["good_bye"])
