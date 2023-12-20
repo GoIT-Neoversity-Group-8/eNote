@@ -6,7 +6,6 @@ from utils.validators import *
 from tabulate import tabulate
 from app.Record import Record
 
-
 def bot_hello(args, book: AddressBook):
     print(command_messages["hello"])
 
@@ -21,11 +20,7 @@ def add_contact(args, book: AddressBook):
 
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
-    if len(args) != 2:
-        raise ValueError()
     name, phone = args
-    if not is_valid_phone(phone):
-        raise ValueError(validation_messages["invalid_phone"])
     book.add_phone(name, phone)
     print(command_messages["phone_added"])
 
@@ -163,7 +158,8 @@ def find_notes(args, book: AddressBook):
 @input_error(error_messages["no_name"])
 def update_contact(args, book: AddressBook):
     # TODO implementation 
-    name, phone, birthday, email, address = args
+    name = args[0]
+    book.update_contact(name)
     print(f"Update {name}")
 
 @input_error(error_messages["no_name"])
