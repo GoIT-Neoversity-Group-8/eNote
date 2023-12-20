@@ -21,8 +21,7 @@ class CommandCompleter(Completer):
         command, *rest = text_before_cursor.split()
 
         # If there's a command and it is in the list
-        if command:
-            # Display commands as suggestions
+        if command:            
             for cmd in command_keys:
                 if cmd.startswith(command) and cmd != command:
                     display_meta = HTML(f'Params: <ansired>{" ".join(command_parameters[cmd])}</ansired>') if cmd in command_parameters else 'Command'

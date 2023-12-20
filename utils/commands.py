@@ -2,7 +2,6 @@ from app.command_handlers import *
 from constants.messages import *
 from tabulate import tabulate
 
-
 def bot_help(args, book):
     print(command_messages["commands"])
 
@@ -18,7 +17,6 @@ def bot_help(args, book):
     ]
     # Print Help table
     print(tabulate(hlp_tbl, hlp_tbl_headers, tablefmt="rounded_outline"))
-
 
 command_info = {
     'help': {
