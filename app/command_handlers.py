@@ -39,3 +39,41 @@ def show_birthday(args, book: AddressBook):
     name = args[0]
     # TODO implementation 
     print(f"Birthday for {name}: DD.MM.YYYY")
+
+@input_error(error_messages["no_name"])
+def show_birthdays(args, book: AddressBook):
+    # TODO implementation 
+    print("Show_birthdays")
+
+@input_error(error_messages["no_name"])
+def find_birthdays(args, book: AddressBook):
+    # TODO implementation 
+    days = int(args[0])
+    print(f"Show_birthdays during {days}")
+
+@input_error(error_messages["no_name"])
+def find_contact(args, book: AddressBook):
+    # TODO implementation
+    search_term = ' '.join(args)
+    print(f"Find contact by {search_term}")
+  
+
+@input_error(error_messages["no_name"])
+def add_note(args, book: AddressBook):
+    # TODO implementation 
+    name = args[0]
+    note = ' '.join(args[1:])
+    print(f"Note added to {name}: {note}")
+
+@input_error(error_messages["no_name"])
+def update_contact(args, book: AddressBook):
+    # TODO implementation 
+    name, phone, birthday, email, address = args
+    print(f"Update {name}")
+
+@input_error(error_messages["no_name"])
+def delete_contact(args, book: AddressBook):    
+    # TODO implementation 
+    name = args[0]
+    print(f"Delete {name}")
+
