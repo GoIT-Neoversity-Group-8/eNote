@@ -17,10 +17,16 @@ class Name(Field):
 
 
 class Phone(Field):
-    def __init__(self, phone):
+    def __init__(self, phone):       
+        self.value = None
+        self.set_value(phone)
+
+    @validation_error
+    def set_value(self, phone):
         if not is_valid_phone(phone):
-            raise ValueError(error_messages["invalid_phone_format"])
-        self.value = phone
+            raise ValidationError(validation_messages["invalid_phone"])
+        else:
+            self.value = Field(phone)
 
 
 class Email:

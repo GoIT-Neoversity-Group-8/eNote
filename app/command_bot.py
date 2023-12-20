@@ -1,17 +1,10 @@
-from utils.error_handlers import input_error
-from utils.prompt_handlers import is_yes_prompt
-from constants.messages import error_messages, command_messages
+from constants.messages import command_messages
 from app.AddressBook import AddressBook
 from utils.commands import handle_command, command_keys, command_parameters
+from utils.input_handlers import parse_input
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.formatted_text import HTML
-
-@input_error(error_messages["no_command"])
-def parse_input(user_input):
-    cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
-    return cmd, *args
 
 class CommandCompleter(Completer):
     def get_completions(self, document, complete_event):

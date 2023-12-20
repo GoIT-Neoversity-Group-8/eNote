@@ -29,6 +29,14 @@ command_messages = {
     "email_added": "Email added",
     "birthday_added": "Birthday added",
     "note_added": "Tag added",
+    "enter_phone": "Please enter phone (n - next, e - exit contact): ",
+    "enter_email": "Please enter email (n - next, e - exit contact): ",
+    "enter_address": "Please enter address (n - next, e - exit contact): ",
+    "enter_birthday": "Please enter birthday (n - next, e - exit contact): ",
+    "enter_note": "Please enter note (n - next, e - exit contact): ",
+    "enter_tag": "Please enter tag (n - next, e - exit contact): ",
+    "prompt_edit_contact": "Contact with {name} already exists. Do you want to edit it?: ",
+    "prompt_add_contact": "There is no contact with name {name}. Do you want to add it?: ",
     "good_bye": "Good bye!",
 }
 

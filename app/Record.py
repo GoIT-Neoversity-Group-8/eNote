@@ -1,20 +1,28 @@
 from app.Fields import Name, Phone, Email, Address, Birthday, Note, Tag
 
 class Record:
-    def __init__(self, name, phone=None, birthday=None, email=None, address=None, note=None):
+    def __init__(self, name):
         self.name = Name(name)
-        self.phones = [Phone(phone),] if phone else []
-        self.email = Email(email) if email else None
-        self.address = Address(address) if address else None
-        self.birthday = Birthday(birthday) if birthday else None
-        self.note = Note(note) if note else None
+        self.phones = []
+        self.email = None
+        self.address = None
+        self.birthday = None
+        self.note = None
+        self.tags = []
+
+    def add_phone(self, phone):
+        phone = Phone(phone)
+        if phone.value:
+            self.phones.append(phone)
+        return bool(phone.value)
 
     def add_note(self, note):
         #TODO Note
         print("#TODO add_note(self, note)")
-        pass
+        return True
 
     def update_note(self, new_note):
         #TODO Note
         print("#TODO update_note(self, new_note)")
         pass
+    
