@@ -24,27 +24,27 @@ command_info = {
     'help': {
         'function': bot_help,
         'example': None,
-        'description': 'Shows a list of available commands with descriptions.',
+        'description': command_descriptions["help"],
     },
     'hello': {
         'function': bot_hello,
         'example': None,
-        'description': 'Greets the user.',
+        'description': command_descriptions["hello"],
     },
     'exit, close': {
         'function': None,  # No function associated with exit, it will be handled separately
         'example': None,
-        'description': 'Exits the program.',
+        'description': command_descriptions["exit"],
     },
     'all': {
         'function': show_all,
         'example': None,
-        'description': 'Show all contacts, ordered by name',
+        'description': command_descriptions["show_all"],
     },
     'add-contact': {
         'function': add_contact,
         'example': "add-contact 'John Doe' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
-        'description': 'Add a new contact with name, phone, birthday, email, and address.',
+        'description': command_descriptions["add_contact"],
     },
     'find': {
         'function': find_contact,
@@ -54,52 +54,52 @@ command_info = {
     'add-phone': {
         'function': add_phone,
         'example': "add-phone 'John Doe' '987-654-3210'",
-        'description': 'Update the phone number for an existing contact.',
+        'description': command_descriptions["add_phone"],
     },
     'show-phone': {
         'function': show_phones,
         'example': "show-phone 'name'",
-        'description': 'Show phone for contact by name',
+        'description': command_descriptions["show_phones"],
     },
     'add-birthday': {
         'function': add_birthday,
         'example': "add-birthday 'John Doe' '01-01-1990'",
-        'description': 'Update the birthday for an existing contact.',
+        'description': command_descriptions["add_birthday"],
     },
     'show-birthday': {
         'function': show_birthday,
         'example': "show-birthday 'John Doe'",
-        'description': 'Show the birthday of a specific contact.',
+        'description': command_descriptions["show_birthday"],
     },
     'show-birthdays': {
         'function': show_birthdays,
         'example': "show-birthdays",
-        'description': 'Show names and birthdays of all contacts.',
+        'description': command_descriptions["show_birthdays"],
     },
     'find-birthdays': {
         'function': find_birthdays,
         'example': "find-birthdays 5",
-        'description': 'Find contacts whose birthdays occur in a specified number of days.',
+        'description': command_descriptions["find_birthdays"]
     },
     'update-contact': {
         'function': update_contact,
         'example': "update-contact 'John Doe' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
-        'description': 'Update the details of an existing contact.',
+        'description': command_descriptions["update_contact"],
     },
     'delete-contact': {
         'function': delete_contact,
         'example': "delete-contact 'John Doe'",
-        'description': 'Delete a contact by name.',
+        'description': command_descriptions["delete_contact"],
     },
     'add-note': {
         'function': add_note,
         'example': "add-note 'John Doe' 'Meeting at 5 PM'",
-        'description': 'Add a note to a specific contact.',
+        'description': command_descriptions["add_note"],
     },
     'edit-note': {
         'function': add_note,
         'example': "edit-note 'John Doe' 0 'Updated meeting at 6 PM'",
-        'description': 'Edit a specific note of a contact.',
+        'description': command_descriptions["edit_note"],
     },
 }
 

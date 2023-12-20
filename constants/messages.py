@@ -49,4 +49,10 @@ command_descriptions = {
     "show_phones": "Show phones for contact by name",
     "add_birthday": "Add birthday (DD.MM.YYYY) for contact by name",
     "show_birthday": "Show birthday for contact by name",
+    "show_birthdays": "Show names and birthdays of all contacts.",
+    "find_birthdays": "Find contacts whose birthdays occur in a specified number of days.",
+    "update_contact": "Update the details of an existing contact.",
+    "delete_contact": "Delete a contact by name.",
+    "add_note": "Add a note to a specific contact.",
+    "edit_note": "Edit a specific note of a contact.",
 }
