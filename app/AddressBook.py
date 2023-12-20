@@ -11,11 +11,11 @@ class AddressBook(UserDict):
         super().__init__()
         # TODO self.load_data()
 
-    def add_contact(self, name, phone=None):
+    def add_contact(self, name, phone=None, birthday=None, email=None, address=None, note=None):
         if name in self.data:
             print(error_messages["exist_contact"])
-            return
-        self.data[name] = Record(name, phone)
+            return False
+        self.data[name] = Record(name, phone, birthday, email, address, note)
         # print(f"{command_messages['contact_added']}")
 
     def update_contact(self, name, phone=None, birthday=None, email=None, address=None, note=None):
@@ -33,9 +33,27 @@ class AddressBook(UserDict):
                 contact.address = Address(address) if address else contact.address
                 contact.note = Note(note) if note else contact.note
                 # TODO зберігаємо одразу???
-                print(f"Contact {name} has been updated.")
+                # print(f"Contact {name} has been updated.")
         except ValueError as e:
             print(e)
+
+    def find_contact(self, search_term: str):
+        found_contacts = {}
+        search_term = search_term.lower()
+        contact: Record
+        for name, contact in self.data.items():
+            # Перевірка, чи пошуковий термін міститься в будь-якому з атрибутів контакту
+            if (
+                search_term in contact.name.value.lower()
+                or (contact.phones and search_term in map(str,contact.phones))
+                # TODO доробити пошук коли будуть готові поля
+                # or (contact.email and search_term in contact.email.value.lower())
+                # or (contact.address and search_term in contact.address.value.lower())
+                # or (contact.birthday and search_term == contact.birthday.value.lower())
+                # or (contact.note and search_term in contact.note.value.lower())
+                ):
+                found_contacts[name] = contact
+        return found_contacts
 
     def add_phone(self, name, new_phone):
         contact = self.data.get(name)
@@ -45,6 +63,6 @@ class AddressBook(UserDict):
                 Phone(new_phone)  # Використовуємо клас Phone для валідації
             )
             # TODO зберігаємо одразу???
-            print(f"Phone number updated for {name}.")
+            # print(f"Phone number updated for {name}.")
         else:
-            print("Contact not found.")
+            print(error_messages["no_contact"])

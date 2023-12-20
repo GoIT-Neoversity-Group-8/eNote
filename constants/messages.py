@@ -23,7 +23,7 @@ command_messages = {
     "welcome": "Welcome to the assistant bot!",
     "commands":  "\nAvailable commands:",
     "enter_command": "Enter a command: ",
-	"hello": "Hello,/nHow can I help you?",
+	"hello": "Hello,\nHow can I help you?",
     "contact_added": "Contact added",
     "phone_added": "Phone added",
     "email_added": "Email added",

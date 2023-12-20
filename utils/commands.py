@@ -51,19 +51,19 @@ command_info = {
     },
     'add-contact': {
         'function': add_contact,
-        'example': "add-contact 'John Doe' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
+        'example': "add-contact 'John Doe' '1234567890' '15.04.2000' 'john@example.com' '123 Main St'",
         'description': command_descriptions["add_contact"],
-        'parameters': ['{name}','{newPhone}','{birthday}','{email}','{addres}'],
+        'parameters': ['{name}','{Phone}','{birthday}','{email}','{addres}'],
     },
     'find': {
         'function': find_contact,
-        'example': "find-contact 'John'",
+        'example': "find 'John' | find 1231234444",
         'description': 'Find contacts by various criteria such as name, phone, email, address, or birthday.',
         'parameters': ['{search_word}'],
     },
     'add-phone': {
         'function': add_phone,
-        'example': "add-phone 'John Doe' '987-654-3210'",
+        'example': "add-phone 'John Doe' '0501234455'",
         'description': command_descriptions["add_phone"],
         'parameters': ['{name}','{newPhone}'],
     },
