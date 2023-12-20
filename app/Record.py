@@ -16,13 +16,14 @@ class Record:
             self.phones.append(phone)
         return bool(phone.value)
 
-    def add_note(self, note):
-        #TODO Note
-        print("#TODO add_note(self, note)")
-        return True
+    def add_note(self, tag, message):
+        if self.note is None:
+            self.note = Note(tag, message)            
+        else:
+            self.note.tag = tag.strip().upper()
+            self.note.message = message
 
-    def update_note(self, new_note):
-        #TODO Note
-        print("#TODO update_note(self, new_note)")
-        pass
+    def delete_note(self):
+        if self.note:
+            self.note = None
     

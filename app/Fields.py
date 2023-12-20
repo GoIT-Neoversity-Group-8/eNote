@@ -44,9 +44,10 @@ class Birthday(Field):
         pass
 
 
-class Note(Field):
-    def __init__(self, note):
-        pass
+class Note():
+    def __init__(self, tag, message):
+        self.tag = tag.strip().upper()
+        self.message = message
 
 
 class Tag(Field):

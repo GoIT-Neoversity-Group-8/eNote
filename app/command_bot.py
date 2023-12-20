@@ -1,4 +1,4 @@
-from constants.messages import command_messages
+from constants.messages import command_messages, error_messages
 from app.AddressBook import AddressBook
 from utils.commands import handle_command, command_keys, command_parameters
 from utils.input_handlers import parse_input
@@ -31,12 +31,16 @@ def address_book_bot():
     handle_command('help', None, contacts) # TODO if no need to show help before start bot, simply remove it
     
     while True:
-        user_input = session.prompt(command_messages["enter_command"])        
-        command, *args = parse_input(user_input)
+        user_input = session.prompt(command_messages["enter_command"])
 
-        if command in ["close", "exit"]:
-            print(command_messages["good_bye"])
-            break
+        if user_input:
+            command, *args = parse_input(user_input)
+
+            if command in ["close", "exit"]:
+                print(command_messages["good_bye"])
+                break
+            else:
+                handle_command(command, args, contacts)
         else:
-            handle_command(command, args, contacts)
+            print(error_messages["no_command"])
 
