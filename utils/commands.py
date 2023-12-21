@@ -81,7 +81,7 @@ command_info = {
     },
     'update-birthday': {
         'function': add_birthday,
-        'example': "update-birthday 'John' '01-01-1990'",
+        'example': "update-birthday 'John' '20.01.1990'",
         'description': command_descriptions["update_birthday"],
         'parameters': ['{name}','{birthday}'],
     },
