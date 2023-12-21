@@ -21,8 +21,8 @@ def add_contact(args, book: AddressBook):
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
     name, phone = args
-    book.add_phone(name, phone)
-    print(command_messages["phone_added"])
+    if book.add_phone(name, phone):
+        print(command_messages["phone_added"])
 
 
 @input_error(error_messages["no_name"])
