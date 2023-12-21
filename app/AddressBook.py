@@ -116,6 +116,7 @@ class AddressBook(UserDict):
             rec_phone = Phone(new_phone) # Використовуємо клас Phone для валідації
             if rec_phone.value:
                 contact.phones.append(rec_phone)
+                return True
                 # TODO зберігаємо одразу???
             else: # якщо телефон не пройшов перевірку - завершуємо
                 return

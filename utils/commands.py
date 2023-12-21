@@ -16,7 +16,7 @@ def bot_help(args, book):
         for command, info in command_dict.items()
     ]
     # Print Help table
-    print(tabulate(hlp_tbl, hlp_tbl_headers, tablefmt="rounded_outline"))
+    print(tabulate(hlp_tbl, hlp_tbl_headers, tablefmt="rounded_grid"))
 
 command_info = {
     'help': {
@@ -51,7 +51,7 @@ command_info = {
     },
     'add-contact': {
         'function': add_contact,
-        'example': "add-contact 'John' '1234567890' '15.04.2000' 'john@example.com' '123 Main St'",
+        'example': "add-contact 'John Doe' | add-contact John",
         'description': command_descriptions["add_contact"],
         'parameters': ['{name}'],
     },
@@ -75,7 +75,7 @@ command_info = {
     },
     'add-birthday': {
         'function': add_birthday,
-        'example': "add-birthday 'John' '01-01-1990'",
+        'example': "add-birthday 'John' '20.01.1990'",
         'description': command_descriptions["add_birthday"],
         'parameters': ['{name}','{birthday}'],
     },
@@ -105,7 +105,7 @@ command_info = {
     },
     'update-contact': {
         'function': update_contact,
-        'example': "update-contact 'John' '123-456-7890' '01-01-1990' 'john@example.com' '123 Main St'",
+        'example': "update-contact 'John Doe'",
         'description': command_descriptions["update_contact"],
         'parameters':  ['{name}','{newPhone}','{birthday}','{email}','{addres}'],
     },

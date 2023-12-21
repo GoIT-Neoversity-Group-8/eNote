@@ -22,19 +22,20 @@ def add_contact(args, book: AddressBook):
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
     name, phone = args
-    record = book.find(name)
-    if not record:
-        print(f"Contact {name} not found.")
-        return
-    if record.add_phone(phone):
+    if book.add_phone(name, phone):
         print(command_messages["phone_added"])
 
 
-@input_error(error_messages["no_name"])
+@input_error(error_messages["no_contact"])
 def show_phones(args, book: AddressBook):
     name = args[0]
-    # TODO implementation
-    print(f"Phones number for {name}: xxxxxxxxxx, xxxxxxxxxx")
+    phones = book[name].phones
+    if phones:
+        txt_phones = ", ".join(map(str, phones))
+        mess = command_messages['show_phones'].format(name=name)
+        print(f"{mess}\n {txt_phones}")
+    else:
+        print(error_messages["no_phones"])
 
 
 def show_all(args, book: AddressBook):    

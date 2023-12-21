@@ -27,6 +27,7 @@ class Phone(Field):
             raise ValidationError(validation_messages["invalid_phone"])
         else:
             self.value = Field(phone)
+            return True
 
 class Email:
     def __init__(self, email):
