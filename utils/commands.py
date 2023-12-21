@@ -79,6 +79,12 @@ command_info = {
         'description': command_descriptions["add_birthday"],
         'parameters': ['{name}','{birthday}'],
     },
+    'update-birthday': {
+        'function': add_birthday,
+        'example': "update-birthday 'John' '01-01-1990'",
+        'description': command_descriptions["update_birthday"],
+        'parameters': ['{name}','{birthday}'],
+    },
     'show-birthday': {
         'function': show_birthday,
         'example': "show-birthday 'John'",

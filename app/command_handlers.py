@@ -32,17 +32,16 @@ def show_phones(args, book: AddressBook):
     print(f"Phones number for {name}: xxxxxxxxxx, xxxxxxxxxx")
 
 
-def show_all(args, book: AddressBook):
-    # TODO implementation
+def show_all(args, book: AddressBook):    
     print("All data")
-    # if not book.data:
-    #     print(error_messages["no_contacts"])
-    #     return
+    if not book.data:
+        print(error_messages["no_contacts"])
+        return
 
     # Таблиця контактів
-    tbl_header = ["Name", "Phone", "Email", "Address", "Birthday", "Note"]
+    tbl_header = ["Name", "Phone", "Birthday", "Email", "Address", "Note"]
     tbl_data = [
-        [record.name, ",".join(map(str, record.phones))]
+        [record.name, ",".join(map(str, record.phones)), record.birthday, record.email, record.address, record.note]
         for name, record in book.data.items()
     ]
     tbl_data = tbl_data or ["", "", "", "", "", ""]
@@ -51,11 +50,16 @@ def show_all(args, book: AddressBook):
 
 
 @input_error(error_messages["no_name_and_birthday"])
-def add_birthday(args, book: AddressBook):
+def add_birthday(args, book: AddressBook):    
+    if len(args) != 2:
+        raise ValueError()
     name, birthday = args
-    # TODO implementation
+    record = book.find(name)
+    if not record:
+        print(f"Contact {name} not found.")
+        return
+    record.add_birthday(birthday)
     print(command_messages["birthday_added"])
-
 
 @input_error(error_messages["no_name"])
 def show_birthday(args, book: AddressBook):

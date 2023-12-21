@@ -19,7 +19,7 @@ def cycled_command_handler(record: Record):
         },
         { 
             "text": command_messages["enter_birthday"],
-            "handler": record.add_note # TODO
+            "handler": record.add_birthday
         },
         { 
             "text": command_messages["enter_note"],
