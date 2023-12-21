@@ -29,7 +29,6 @@ class Phone(Field):
             self.value = Field(phone)
             return True
 
-
 class Email:
     def __init__(self, email):
         pass
@@ -42,13 +41,24 @@ class Address:
 
 class Birthday(Field):
     def __init__(self, date):
-        pass
+        self.value = None
+        self.set_value(date)
+    
+    @validation_error
+    def set_value(self, date):
+        if not is_valid_date(date):
+            raise ValidationError(validation_messages["invalid_date"])
+        else:
+            self.value = Field(date)
 
 
 class Note():
     def __init__(self, tag, message):
         self.tag = tag.strip().upper()
         self.message = message
+
+    def __str__(self):
+        return f"Tag: {self.tag}, Message: {self.message}"
 
 
 class Tag(Field):
