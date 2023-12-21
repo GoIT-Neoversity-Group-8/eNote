@@ -73,6 +73,18 @@ command_info = {
         'description': command_descriptions["show_phones"],
         'parameters': ['{name}'],
     },
+    'add-email': {
+        'function': add_email,
+        'example': "add-email 'John' 'john@example.com'",
+        'description': command_descriptions["add_email"],
+        'parameters': ['{name}', '{email}'],
+    },
+    'add-address': {
+        'function': add_address,
+        'example': "add-email 'John' 'Hrushevskoho 29'",
+        'description': command_descriptions["add_address"],
+        'parameters': ['{name}', '{address}'],
+    },
     'add-birthday': {
         'function': add_birthday,
         'example': "add-birthday 'John' '20.01.1990'",
