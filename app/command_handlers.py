@@ -56,6 +56,17 @@ def add_birthday(args, book: AddressBook):
     # TODO implementation
     print(command_messages["birthday_added"])
 
+@input_error(error_messages["no_name_and_email"])
+def add_email(args, book: AddressBook):
+    name, email = args
+    # TODO implementation
+    print(command_messages["email_added"])
+
+@input_error(error_messages["no_name_and_address"])
+def add_address(args, book: AddressBook):
+    name, address = args
+    # TODO implementation
+    print(command_messages["address_added"])
 
 @input_error(error_messages["no_name"])
 def show_birthday(args, book: AddressBook):
@@ -167,4 +178,3 @@ def delete_contact(args, book: AddressBook):
     # TODO implementation 
     name = args[0]
     print(f"Delete {name}")
-
