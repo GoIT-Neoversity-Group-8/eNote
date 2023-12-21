@@ -53,12 +53,12 @@ command_info = {
         'function': add_contact,
         'example': "add-contact 'John' '1234567890' '15.04.2000' 'john@example.com' '123 Main St'",
         'description': command_descriptions["add_contact"],
-        'parameters': ['{name}','{Phone}','{birthday}','{email}','{addres}'],
+        'parameters': ['{name}'],
     },
     'find': {
         'function': find_contact,
         'example': "find 'John' | find 1231234444",
-        'description': 'Find contacts by various criteria such as name, phone, email, address, or birthday.',
+        'description': command_descriptions["find"],
         'parameters': ['{search_word}'],
     },
     'add-phone': {

@@ -78,10 +78,13 @@ class AddressBook(UserDict):
         contact = self.data.get(name)
         if contact:
             # Додаємо новий телефонний номер контакту
-            contact.phones.append(
-                Phone(new_phone)  # Використовуємо клас Phone для валідації
-            )
-            # TODO зберігаємо одразу???
+            if Phone(new_phone).value:
+                contact.phones.append(
+                    Phone(new_phone)  # Використовуємо клас Phone для валідації
+                )
+                # TODO зберігаємо одразу???
+            else: # якщо телефон не пройшов перевірку - завершуємо
+                return
             # print(f"Phone number updated for {name}.")
         else:
             print(error_messages["no_contact"])
