@@ -34,7 +34,7 @@ def show_phones(args, book: AddressBook):
 
 def show_all(args, book: AddressBook):
     # TODO implementation
-    print("All data")
+    print("Address Book")
     # if not book.data:
     #     print(error_messages["no_contacts"])
     #     return
@@ -77,8 +77,19 @@ def find_birthdays(args, book: AddressBook):
 @input_error(error_messages["no_name"])
 def find_contact(args, book: AddressBook):
     # TODO implementation
-    search_term = ' '.join(args)
-    print(f"Find contact by {search_term}")  
+    search_term = ' '.join(args) #передані параметри вважаємо одним рядком і шукаємо по ньому
+    found_contacts = book.find_contact(search_term)
+    if found_contacts: # якщо список знайдених не порожній - показуємо таблицю з результатами
+        tbl_header = ["Name", "Phone", "Email", "Address", "Birthday", "Note"]
+        tbl_data = [
+            [record.name, ",".join(map(str, record.phones))]
+            for name, record in found_contacts.items()
+        ]
+        tbl_data = tbl_data or ["", "", "", "", "", ""]
+        tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
+        print(str(tbl))
+    else: # якщоконтакти не знайдені - інформація і вихід
+        print(error_messages["no_contact"])  
 
 @input_error(error_messages["no_name_and_note_data"])
 def add_note(args, book: AddressBook):

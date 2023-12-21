@@ -6,6 +6,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.formatted_text import HTML
 
+
 class CommandCompleter(Completer):
     def get_completions(self, document, complete_event):
         text_before_cursor = document.text_before_cursor
