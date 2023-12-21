@@ -1,9 +1,10 @@
 from app.command_handlers import *
 from constants.messages import *
+from utils.print_handlers import *
 from tabulate import tabulate
 
 def bot_help(args, book):
-    print(command_messages["commands"])
+    print_hint(command_messages["commands"])
 
     # Prepare Help table
     hlp_tbl_headers = [
@@ -122,7 +123,7 @@ command_info = {
         'parameters': ['{name}', '{tag}', '{message}'],
     },
     'edit-note': {
-        'function': add_note,
+        'function': edit_note,
         'example': "edit-note 'John' 'Reminder' 'Updated meeting at 6 PM'",
         'description': command_descriptions["edit_note"],
         'parameters': ['{name}', '{tag}', '{message}'],
@@ -160,6 +161,6 @@ def handle_command(command, args, book):
         if command_function:
             return command_function(args, book)
         else:
-            return print(error_messages["invalid_command"])
+            return print_error(error_messages["invalid_command"])
     else:
-        return print(error_messages["invalid_command"])
+        return print_error(error_messages["invalid_command"])

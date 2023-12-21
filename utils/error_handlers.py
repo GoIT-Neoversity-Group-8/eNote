@@ -1,3 +1,5 @@
+from utils.print_handlers import *
+
 # -- Decorator for input error handling
 def input_error(parentError = None):
     def error_handler(func):
@@ -5,7 +7,7 @@ def input_error(parentError = None):
             try:
                 return func(*args, **kwargs)
             except (ValueError, KeyError, IndexError) as error:
-                print(parentError if parentError else error) # Check
+                print_error(parentError if parentError else error) # Check
         return inner
     return error_handler
 
@@ -19,5 +21,5 @@ def validation_error(func):
         try:
             return func(*args, **kwargs)
         except ValidationError as err:
-            print(err)
+            print_error(err)
     return inner

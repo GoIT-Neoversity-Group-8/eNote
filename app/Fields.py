@@ -2,7 +2,6 @@ from utils.validators import is_valid_phone, is_valid_date
 from utils.error_handlers import input_error, validation_error, ValidationError
 from constants.messages import error_messages, validation_messages
 
-
 class Field:
     def __init__(self, value):
         self.value = value
@@ -10,11 +9,9 @@ class Field:
     def __str__(self):
         return str(self.value)
 
-
 class Name(Field):
     def __init__(self, name):
         self.value = name
-
 
 class Phone(Field):
     def __init__(self, phone):       
@@ -27,17 +24,14 @@ class Phone(Field):
             raise ValidationError(validation_messages["invalid_phone"])
         else:
             self.value = Field(phone)
-            return True
 
 class Email:
     def __init__(self, email):
         pass
 
-
 class Address:
     def __init__(self, address):
         pass
-
 
 class Birthday(Field):
     def __init__(self, date):
@@ -51,7 +45,6 @@ class Birthday(Field):
         else:
             self.value = Field(date)
 
-
 class Note():
     def __init__(self, tag, message):
         self.tag = tag.strip().upper()
@@ -59,7 +52,6 @@ class Note():
 
     def __str__(self):
         return f"Tag: {self.tag}, Message: {self.message}"
-
 
 class Tag(Field):
     def __init__(self, tag):
