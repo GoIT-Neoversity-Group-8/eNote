@@ -101,7 +101,7 @@ command_info = {
         'function': update_contact,
         'example': "update-contact 'John Doe'",
         'description': command_descriptions["update_contact"],
-        'parameters':  ['{name}','{newPhone}','{birthday}','{email}','{addres}'],
+        'parameters':  ['{name}'],
     },
     'delete-contact': {
         'function': delete_contact,

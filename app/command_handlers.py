@@ -176,7 +176,8 @@ def update_contact(args, book: AddressBook):
     # TODO implementation 
     name = args[0]
     book.update_contact(name)
-    print(f"Update {name}")
+    mess = command_messages['contact_updated'].format(name=name)
+    print(mess)
 
 @input_error(error_messages["no_name"])
 def delete_contact(args, book: AddressBook):    
