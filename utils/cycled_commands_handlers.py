@@ -34,7 +34,10 @@ def cycled_command_handler(record: Record):
     current_field = 0
     while True:
         user_input = input(cycled_command_fields[current_field]["text"])        
-        value, *args = parse_input(user_input)
+        try: # якщо порожній інпут або інша проблема -> ввести заново
+            value, *args = parse_input(user_input)
+        except:
+            continue
 
         if value == 'e':
             break

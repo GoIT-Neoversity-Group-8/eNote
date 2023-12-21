@@ -45,7 +45,6 @@ def show_phones(args, book: AddressBook):
 
 
 def show_all(args, book: AddressBook):    
-    print("All data")
     if not book.data:
         print(error_messages["no_contacts"])
         return
@@ -223,5 +222,10 @@ def update_contact(args, book: AddressBook):
 def delete_contact(args, book: AddressBook):    
     # TODO implementation 
     name = args[0]
-    print(f"Delete {name}")
+    if name in book:
+        del book[name]
+        mess = command_messages["delete_contact"].format(name=name)
+        print(mess)
+    else:
+        raise IndexError
 
