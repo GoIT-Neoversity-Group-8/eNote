@@ -21,8 +21,14 @@ def add_contact(args, book: AddressBook):
 
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
+    if len(args) != 2:
+        raise ValueError()
     name, phone = args
-    if book.add_phone(name, phone):
+    record = book.find(name)
+    if not record:
+        print(f"Contact {name} not found.")
+        return
+    if record.add_phone(phone):
         print(command_messages["phone_added"])
 
 
