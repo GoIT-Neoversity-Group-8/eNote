@@ -3,6 +3,9 @@ from constants.messages import command_messages
 from utils.input_handlers import parse_input
 from app.Record import Record
 
+BLUE = "\033[94m"
+RESET = "\033[0m"
+
 def cycled_command_handler(record: Record):
     cycled_command_fields = [
         { 
@@ -25,29 +28,33 @@ def cycled_command_handler(record: Record):
             "text": command_messages["enter_note"],
             "handler": record.add_note # TODO
         },
-        { 
-            "text": command_messages["enter_tag"],
-            "handler": record.add_note # TODO
-        },
+        # { 
+        #     "text": command_messages["enter_tag"],
+        #     "handler": record.add_note # TODO
+        # },
     ]
 
     current_field = 0
     while True:
-        user_input = input(cycled_command_fields[current_field]["text"])        
-        try: # якщо порожній інпут або інша проблема -> ввести заново
+        user_input = input(
+            BLUE + '    ' + 
+            cycled_command_fields[current_field]["text"] +
+            RESET
+        )
+
+        value, *args = [None]
+        if bool(user_input.strip()):
             value, *args = parse_input(user_input)
-        except:
-            continue
 
         if value == 'e':
             break
-        elif value == 'n':
+        elif not value or value == 'n':
             if (current_field + 1) == len(cycled_command_fields):
                 break
             current_field += 1
             continue
         else:
             field_handler = cycled_command_fields[current_field]["handler"]
-            is_updated = field_handler(value)
+            is_updated = field_handler(value, *args)
             if is_updated:
                 current_field += 1

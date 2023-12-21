@@ -3,48 +3,54 @@ from utils.prompt_handlers import is_yes_prompt
 from constants.messages import error_messages, command_messages, validation_messages
 from app.AddressBook import AddressBook
 from utils.validators import *
+from utils.print_handlers import *
 from tabulate import tabulate
 from app.Record import Record
 from datetime import datetime, timedelta
 
 def bot_hello(args, book: AddressBook):
-    print(command_messages["hello"])
+    print_hint(command_messages["hello"])
 
-
+# -- Contact
 @input_error(error_messages["no_name"])
 def add_contact(args, book: AddressBook):
     name = args[0]
-    # TODO implementation
     book.add_contact(name)
-    print(command_messages["contact_added"])
+    print_success(command_messages["contact_added"])
 
+@input_error(error_messages["no_name"])
+def update_contact(args, book: AddressBook):
+    name = args[0]
+    book.update_contact(name)
+    print_success(command_messages['contact_updated'].format(name=name))
 
+@input_error(error_messages["no_name"])
+def delete_contact(args, book: AddressBook):
+    name = args[0]
+    if book.delete_contact(name):
+        print_success(command_messages['contact_deleted'].format(name=name))
+    else:
+        print_error(error_messages["no_contact"])
+
+# -- Phones
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
-    if len(args) != 2:
-        raise ValueError()
     name, phone = args
-    record = book.find(name)
-    if not record:
-        print(f"Contact {name} not found.")
-        return
-    if record.add_phone(phone):
-        print(command_messages["phone_added"])
+    if book.add_phone(name, phone):
+        print_success(command_messages["phone_added"])
 
-
-@input_error(error_messages["no_contact"])
+@input_error(error_messages["no_name"])
 def show_phones(args, book: AddressBook):
     name = args[0]
-    phones = book[name].phones
+    phones = book.show_phones(name)
     if phones:
         txt_phones = ", ".join(map(str, phones))
         mess = command_messages['show_phones'].format(name=name)
-        print(f"{mess}\n {txt_phones}")
+        print_hint(f"{mess}: {txt_phones}")
     else:
-        print(error_messages["no_phones"])
+        print_error(error_messages["no_phones"])
 
-
-def show_all(args, book: AddressBook):    
+def show_all(args, book: AddressBook):
     if not book.data:
         print(error_messages["no_contacts"])
         return
@@ -58,37 +64,31 @@ def show_all(args, book: AddressBook):
     tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
     print(str(tbl))
 
-
+# -- Birthdays
 @input_error(error_messages["no_name_and_birthday"])
-def add_birthday(args, book: AddressBook):    
-    if len(args) != 2:
-        raise ValueError()
+def add_birthday(args, book: AddressBook):
     name, birthday = args
     record = book.find(name)
     if not record:
-        print(f"Contact {name} not found.")
-        return
-    if record.add_birthday(birthday):
-        print(command_messages["birthday_added"])
+        print_error(error_messages["no_contact"])
+    elif record.add_birthday(birthday):
+        print_success(command_messages["birthday_added"])
 
 @input_error(error_messages["no_name"])
-def show_birthday(args, book: AddressBook):    
-    if len(args) != 1:
-        raise ValueError()
+def show_birthday(args, book: AddressBook):
     name = args[0]
     record = book.find(name)
     if not record:
-        print(f"Contact {name} not found.")
-        return
-    if record.birthday and record.birthday.value:
-        print(f"Contact {name} has birthday {record.birthday.value}")
+        print_error(error_messages["no_contact"])
+    elif record.birthday and record.birthday.value:
+        print_hint(command_messages["show_birthday"].format(birthday=record.birthday.value))
     else:
-        print(f"Contact {name} has not birthday data")
+        print_hint(command_messages["no_birthday"])
 
 def show_birthdays(args, book: AddressBook):
     data = book.show_birthdays()
     if not data:
-        print(f"Birthdays data not found.")
+        print_hint(command_messages["no_birthdays"])
         return    
     
     tbl_header = ["Name", "Birthday"]
@@ -106,7 +106,7 @@ def find_birthdays(args, book: AddressBook):
     birthdays = book.find_birthdays_in_days(days)
 
     if not birthdays:
-        print(f"No birthdays in the next {days} days.")
+        print_hint(command_messages["no_birthdays_in_days"].format(days=days))
         return
     
     tbl_header = ["Date", "Birthday"]
@@ -120,7 +120,6 @@ def find_birthdays(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def find_contact(args, book: AddressBook):
-    # TODO implementation
     search_term = ' '.join(args) #передані параметри вважаємо одним рядком і шукаємо по ньому
     found_contacts = book.find_contact(search_term)
     if found_contacts: # якщо список знайдених не порожній - показуємо таблицю з результатами
@@ -133,54 +132,47 @@ def find_contact(args, book: AddressBook):
         tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
         print(str(tbl))
     else: # якщоконтакти не знайдені - інформація і вихід
-        print(error_messages["no_contact"])  
+        print_error(error_messages["no_contact"])  
 
+# TODO is it OK that we can't add note without tag?
 @input_error(error_messages["no_name_and_note_data"])
 def add_note(args, book: AddressBook):
-    if len(args) <= 2:
-        raise ValueError()
     name, tag, *note = args
     record = book.find(name)
     if not record:
-        print(f"Contact {name} not found.")
+        print_error(error_messages["no_contact"])
         return
     msg = ' '.join(note)
     record.add_note(tag, msg)
-    print(f"Note added for {name} with tag {tag}")
+    print_success(command_messages["note_added"])
 
 @input_error(error_messages["no_name_and_note_data"])
 def edit_note(args, book: AddressBook):
-    if len(args) <= 2:
-        raise ValueError()
     name, tag, *note = args
     record = book.find(name)
     if not record:
-        print(f"Contact {name} not found.")
+        print_error(error_messages["no_contact"])
         return
     msg = ' '.join(note)
     record.add_note(tag, msg)
-    print(f"Note updated for {name} with tag {tag}")
+    print_success(command_messages["note_updated"])
 
 @input_error(error_messages["no_name"])
 def delete_note(args, book: AddressBook):
-    if len(args) != 1:
-        raise ValueError()
     name = args[0]
     record = book.find(name)
     if not record:
-        print(f"Contact {name} not found.")
+        print_error(error_messages["no_contact"])
         return
     record.delete_note()
-    print(f"Note deleted for contact {name}")
+    print_success(command_messages["note_deleted"])
 
 @input_error(error_messages["no_note_tag"])
 def find_note_by_tag(args, book: AddressBook):
-    if len(args) != 1:
-        raise ValueError()
     tag = args[0]
     notes = book.find_notes_by_tag(tag)
     if not notes:
-        print(f"Notes with tag '{tag}' not found.")
+        print_hint(command_messages["no_notes_by_tag"].format(tag=tag))
         return
     
     # Notes
@@ -197,7 +189,7 @@ def find_notes(args, book: AddressBook):
     search_term = ' '.join(args)
     notes = book.find_notes(search_term)
     if not notes:
-        print(f"Notes with search term '{search_term}' not found.")
+        print_hint(command_messages["no_notes_by_string"].format(search_term=search_term))
         return
     
     # Notes
@@ -209,23 +201,3 @@ def find_notes(args, book: AddressBook):
     tbl_data = tbl_data or ["", "", ""]
     tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
     print(str(tbl))
-
-@input_error(error_messages["no_name"])
-def update_contact(args, book: AddressBook):
-    # TODO implementation 
-    name = args[0]
-    book.update_contact(name)
-    mess = command_messages['contact_updated'].format(name=name)
-    print(mess)
-
-@input_error(error_messages["no_name"])
-def delete_contact(args, book: AddressBook):    
-    # TODO implementation 
-    name = args[0]
-    if name in book:
-        del book[name]
-        mess = command_messages["delete_contact"].format(name=name)
-        print(mess)
-    else:
-        raise IndexError
-
