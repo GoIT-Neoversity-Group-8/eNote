@@ -1,4 +1,3 @@
-from cgitb import handler
 from constants.messages import command_messages
 from utils.input_handlers import parse_input
 from app.Record import Record
