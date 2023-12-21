@@ -20,5 +20,4 @@ def validation_error(func):
             return func(*args, **kwargs)
         except ValidationError as err:
             print(err)
-
     return inner

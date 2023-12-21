@@ -4,6 +4,7 @@ from utils.cycled_commands_handlers import cycled_command_handler
 from constants.messages import error_messages, command_messages
 from app.Fields import Phone, Birthday, Address, Email, Note
 from app.Record import Record
+from datetime import datetime, timedelta
 
 class AddressBook(UserDict):
     def __init__(self):
@@ -55,6 +56,40 @@ class AddressBook(UserDict):
         
         notes.sort(key=lambda x: x["tag"].lower())
         return notes
+    
+    def show_birthdays(self):
+        data = []
+        for name, record in self.data.items():
+            if record.birthday and record.birthday.value:
+                data.append({"name": name, "birthday": record.birthday.value})
+        
+        data.sort(key=lambda x: x["name"].lower())
+        return data
+    
+    def find_birthdays_in_days(self, days):
+        birthdays = {}
+        current_date = datetime.now()
+        future_date = current_date + timedelta(days=days)
+
+        for name, record in self.data.items():
+            birthday_str = str(record.birthday.value) if (record.birthday and record.birthday.value) else None
+            if birthday_str:
+                birthday = datetime.strptime(birthday_str, '%d.%m.%Y')                    
+                birthday_this_year = birthday.replace(year=current_date.year, month=birthday.month, day=birthday.day)
+                birthday_next_year = birthday_this_year.replace(year=current_date.year + 1)
+                    
+                if current_date <= birthday_this_year <= future_date:                       
+                    if not birthday_this_year.date() in birthdays:
+                        birthdays[birthday_this_year.date()] = []
+                    birthdays[birthday_this_year.date()].append(name)
+                   
+                if current_date <= birthday_next_year <= future_date:
+                    if not birthday_next_year.date() in birthdays:
+                        birthdays[birthday_next_year.date()] = []
+                    birthdays[birthday_next_year.date()].append(name)
+
+        sorted_birthdays = dict(sorted(birthdays.items()))
+        return sorted_birthdays
 
     def find_contact(self, search_term: str):
         found_contacts = {}

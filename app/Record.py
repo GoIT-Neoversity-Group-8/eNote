@@ -15,12 +15,12 @@ class Record:
         if phone.value:
             self.phones.append(phone)
         return bool(phone.value)
-    
+        
     def add_birthday(self, date):
-        if self.birthday is None:
-            self.birthday = Birthday(date)
-        else:
-            self.birthday.set_value(date)        
+        birthday = Birthday(date)
+        if birthday.value:
+            self.birthday = birthday       
+        return bool(birthday.value)
 
     def add_note(self, tag, message):
         if self.note is None:

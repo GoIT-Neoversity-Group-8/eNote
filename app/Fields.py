@@ -28,7 +28,6 @@ class Phone(Field):
         else:
             self.value = Field(phone)
 
-
 class Email:
     def __init__(self, email):
         pass
@@ -43,7 +42,7 @@ class Birthday(Field):
     def __init__(self, date):
         self.value = None
         self.set_value(date)
-
+    
     @validation_error
     def set_value(self, date):
         if not is_valid_date(date):

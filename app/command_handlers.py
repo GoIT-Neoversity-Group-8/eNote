@@ -1,10 +1,11 @@
-from utils.error_handlers import input_error
+from utils.error_handlers import input_error, validation_error
 from utils.prompt_handlers import is_yes_prompt
 from constants.messages import error_messages, command_messages, validation_messages
 from app.AddressBook import AddressBook
 from utils.validators import *
 from tabulate import tabulate
 from app.Record import Record
+from datetime import datetime, timedelta
 
 def bot_hello(args, book: AddressBook):
     print(command_messages["hello"])
@@ -21,8 +22,12 @@ def add_contact(args, book: AddressBook):
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
     name, phone = args
-    book.add_phone(name, phone)
-    print(command_messages["phone_added"])
+    record = book.find(name)
+    if not record:
+        print(f"Contact {name} not found.")
+        return
+    if record.add_phone(phone):
+        print(command_messages["phone_added"])
 
 
 @input_error(error_messages["no_name"])
@@ -57,25 +62,55 @@ def add_birthday(args, book: AddressBook):
     if not record:
         print(f"Contact {name} not found.")
         return
-    record.add_birthday(birthday)
-    print(command_messages["birthday_added"])
+    if record.add_birthday(birthday):
+        print(command_messages["birthday_added"])
 
 @input_error(error_messages["no_name"])
-def show_birthday(args, book: AddressBook):
+def show_birthday(args, book: AddressBook):    
+    if len(args) != 1:
+        raise ValueError()
     name = args[0]
-    # TODO implementation
-    print(f"Birthday for {name}: DD.MM.YYYY")
+    record = book.find(name)
+    if not record:
+        print(f"Contact {name} not found.")
+        return
+    if record.birthday and record.birthday.value:
+        print(f"Contact {name} has birthday {record.birthday.value}")
+    else:
+        print(f"Contact {name} has not birthday data")
 
-@input_error(error_messages["no_name"])
 def show_birthdays(args, book: AddressBook):
-    # TODO implementation 
-    print("Show_birthdays")
+    data = book.show_birthdays()
+    if not data:
+        print(f"Birthdays data not found.")
+        return    
+    
+    tbl_header = ["Name", "Birthday"]
+    tbl_data = [
+        [item["name"], item["birthday"]]
+        for item in data
+    ]
+    tbl_data = tbl_data or ["", ""]
+    tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
+    print(str(tbl))
 
-@input_error(error_messages["no_name"])
-def find_birthdays(args, book: AddressBook):
-    # TODO implementation 
-    days = int(args[0])
-    print(f"Show_birthdays during {days}")
+@input_error(error_messages["no_days"])
+def find_birthdays(args, book: AddressBook):    
+    days = int(args[0]) if len(args) == 1 else 7    
+    birthdays = book.find_birthdays_in_days(days)
+
+    if not birthdays:
+        print(f"No birthdays in the next {days} days.")
+        return
+    
+    tbl_header = ["Date", "Birthday"]
+    tbl_data = [
+        [date.strftime('%d.%m'), ", ".join(map(str, data))]
+        for date, data in birthdays.items()
+    ]
+    tbl_data = tbl_data or ["", ""]
+    tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
+    print(str(tbl))    
 
 @input_error(error_messages["no_name"])
 def find_contact(args, book: AddressBook):
