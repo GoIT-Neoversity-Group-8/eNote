@@ -77,7 +77,7 @@ class AddressBook(UserDict):
             record = self.find(name)
             return record.delete_phone(phone_to_del)
         else: # контакту з таким іменем немає
-            raise IndexError(error_messages["phone_not_exist"])
+            raise IndexError(error_messages["name_not_found"])
         
             
     @input_error(error_messages["no_contact"])
