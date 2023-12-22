@@ -6,16 +6,16 @@ ORANGE = "\033[38;5;208m"
 RESET = "\033[0m"
 
 def print_error(msg):
-	print(RED + msg + RESET)
+	print(RED + str(msg) + RESET)
 
 def print_command(msg):
-	print(CYAN + msg + RESET)
+	print(CYAN + str(msg) + RESET)
 
 def print_subcommand(msg):
-	print(BLUE + msg + RESET)
+	print(BLUE + str(msg) + RESET)
 
 def print_success(msg):
-	print(GREEN + msg + RESET)
+	print(GREEN + str(msg) + RESET)
 
 def print_hint(msg):
-	print(ORANGE + msg + RESET)
+	print(ORANGE + str(msg) + RESET)
