@@ -20,14 +20,23 @@ class Record:
         birthday = Birthday(date)
         if birthday.value:
             self.birthday = birthday       
-        return bool(birthday.value)
-
-    def add_note(self, tag='', message=''):
+        return bool(birthday.value)    
+    
+    def add_note_message(self, message, *args):
+        msg = f"{message} {' '.join(args)}"
         if self.note is None:
-            self.note = Note(tag, message)            
+            self.note = Note()
+            self.note.set_message(msg)
         else:
-            self.note.tag = tag.strip().upper()
-            self.note.message = message
+            self.note.set_message(msg)
+        return True
+    
+    def add_note_tag(self, tag, *args):
+        if self.note is None:
+            self.note = Note()
+            self.note.set_tag(tag)
+        else:
+            self.note.set_tag(tag)
         return True
 
     def delete_note(self):

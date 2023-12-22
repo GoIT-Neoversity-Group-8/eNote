@@ -46,9 +46,15 @@ class Birthday(Field):
             self.value = Field(date)
 
 class Note():
-    def __init__(self, tag, message):
+    def __init__(self, tag='', message=''):
         self.tag = tag.strip().upper()
         self.message = message
+
+    def set_message(self, message):
+        self.message = message
+
+    def set_tag(self, tag):
+        self.tag = tag.strip().upper()
 
     def __str__(self):
         return f"Tag: {self.tag}, Message: {self.message}"

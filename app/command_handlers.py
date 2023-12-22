@@ -134,28 +134,17 @@ def find_contact(args, book: AddressBook):
     else: # якщоконтакти не знайдені - інформація і вихід
         print_error(error_messages["no_contact"])  
 
-# TODO is it OK that we can't add note without tag?
-@input_error(error_messages["no_name_and_note_data"])
+@input_error(error_messages["no_name"])
 def add_note(args, book: AddressBook):
-    name, tag, *note = args
-    record = book.find(name)
-    if not record:
-        print_error(error_messages["no_contact"])
-        return
-    msg = ' '.join(note)
-    record.add_note(tag, msg)
-    print_success(command_messages["note_added"])
+    name = args[0]
+    if book.add_note(name):
+        print_success(command_messages["note_added"])
 
-@input_error(error_messages["no_name_and_note_data"])
+@input_error(error_messages["no_name"])
 def edit_note(args, book: AddressBook):
-    name, tag, *note = args
-    record = book.find(name)
-    if not record:
-        print_error(error_messages["no_contact"])
-        return
-    msg = ' '.join(note)
-    record.add_note(tag, msg)
-    print_success(command_messages["note_updated"])
+    name = args[0]
+    if book.add_note(name):
+        print_success(command_messages["note_updated"])
 
 @input_error(error_messages["no_name"])
 def delete_note(args, book: AddressBook):
