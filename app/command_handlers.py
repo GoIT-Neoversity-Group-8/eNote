@@ -101,10 +101,10 @@ def delete_email(args, book: AddressBook):
         print_success(command_messages['email_deleted'])
 
 # -- Address
-@input_error(error_messages["no_name_and_email"])
+@input_error(error_messages["no_name"])
 def add_address(args, book: AddressBook):
-    name, email = args
-    if book.add_address(name, email):
+    name, address, *data = args
+    if book.add_address(name, address, *data):
         print_success(command_messages["address_added"])
 
 @input_error(error_messages["no_name"])

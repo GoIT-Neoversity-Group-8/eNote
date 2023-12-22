@@ -1,17 +1,16 @@
-from app.Fields import Name, Phone, Email, Address, Birthday, Note, Tag
+from app.Fields import Name, Phone, Email, Address, Birthday, Note
 from constants.messages import error_messages, validation_messages
 from utils.error_handlers import input_error
 from utils.validators import is_valid_phone
 
 class Record:
-    def __init__(self, name):
+    def __init__(self, name, phones=None, birthday=None, email=None, address=None, note=None):
         self.name = Name(name)
-        self.phones = []
-        self.email = None
-        self.address = None
-        self.birthday = None
-        self.note = None
-        self.tags = []
+        self.phones = [Phone(phone) for phone in (phones or [])]
+        self.email = Email(email) if email else None
+        self.address = Address(address) if address else None
+        self.birthday = Birthday(birthday) if birthday else None
+        self.note = note if note else None
 
     # -- phones
     @property
@@ -20,7 +19,7 @@ class Record:
 
     @property
     def phones_str(self):
-        return ', '.join(self.phone_str_list)
+        return ', '.join(self.phone_str_list)    
 
     @input_error()
     def add_phone(self, new_phone):
