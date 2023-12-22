@@ -32,7 +32,7 @@ command_messages = {
     "welcome": raccoon + "Hello Everybody, це eNote!",
     "commands":  "\nНаявні команди:",
     "enter_command": "Введіть но команду: ",
-    "hello": "Hello Everybody,\nчим допомогти?",
+    "hello": raccoon + "Hello Everybody,\nчим допомогти?",
     "contact_added": "Перемога! Контакт додано",
     # TODO повідомлення після успішного оновлення даних контакту
     "contact_updated": "Вітаннячко! Контакт {name} оновлено.",
