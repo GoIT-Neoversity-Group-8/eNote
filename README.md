@@ -1,6 +1,9 @@
 # How to use
 ``` git clone <eNote> ```
-- open root terminal and run ``` python3 main.py ```
+- open root terminal ```cd /eNote``` and run ``` python3 main.py ```
+  OR
+- setup as package from the root dir running ``` pip3 install . ``` 
+and use from any place just running ``` enote ```
 
 # Available Commands
 
