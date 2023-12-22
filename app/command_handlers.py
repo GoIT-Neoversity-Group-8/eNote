@@ -32,6 +32,20 @@ def delete_contact(args, book: AddressBook):
     else:
         print_error(error_messages["no_contact"])
 
+def show_all(args, book: AddressBook):
+    if not book.data:
+        print(error_messages["no_contacts"])
+        return
+    # Таблиця контактів
+    tbl_header = ["Name", "Phone", "Birthday", "Email", "Address", "Note"]
+    tbl_data = [
+        [record.name, ",".join(map(str, record.phones)), record.birthday, record.email, record.address, record.note]
+        for name, record in book.data.items()
+    ]
+    tbl_data = tbl_data or ["", "", "", "", "", ""]
+    tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
+    print(str(tbl))
+
 # -- Phones
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
@@ -49,20 +63,6 @@ def show_phones(args, book: AddressBook):
         print_hint(f"{mess}: {txt_phones}")
     else:
         print_error(error_messages["no_phones"])
-
-def show_all(args, book: AddressBook):
-    if not book.data:
-        print(error_messages["no_contacts"])
-        return
-    # Таблиця контактів
-    tbl_header = ["Name", "Phone", "Birthday", "Email", "Address", "Note"]
-    tbl_data = [
-        [record.name, ",".join(map(str, record.phones)), record.birthday, record.email, record.address, record.note]
-        for name, record in book.data.items()
-    ]
-    tbl_data = tbl_data or ["", "", "", "", "", ""]
-    tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
-    print(str(tbl))
 
 # -- Birthdays
 @input_error(error_messages["no_name_and_birthday"])
@@ -134,6 +134,7 @@ def find_contact(args, book: AddressBook):
     else: # якщоконтакти не знайдені - інформація і вихід
         print_error(error_messages["no_contact"])  
 
+# -- Notes
 # TODO is it OK that we can't add note without tag?
 @input_error(error_messages["no_name_and_note_data"])
 def add_note(args, book: AddressBook):
