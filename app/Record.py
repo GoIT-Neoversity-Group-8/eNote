@@ -22,6 +22,17 @@ class Record:
             self.phones.sort()
         return bool(phone.value)
         
+    @input_error()
+    def delete_phone(self, phone_to_del):
+        phone_to_del = Phone(phone_to_del)
+        if phone_to_del.value:
+            if str(phone_to_del.value) in [str(p.value) for p in self.phones]:
+                self.phones.remove(phone_to_del)
+                return True # видалено успішно
+        else:
+            raise IndexError(error_messages["phone_not_exist"])        
+        return False
+        
     def add_birthday(self, date):
         birthday = Birthday(date)
         if birthday.value:
