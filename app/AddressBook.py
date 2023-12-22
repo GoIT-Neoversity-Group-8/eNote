@@ -70,7 +70,7 @@ class AddressBook(UserDict):
         if record:
             return record.add_phone(phone)
 
-    @input_error()
+    # @input_error()
     def delete_phone(self, name, phone_to_del):
         record: Record = None
         if name in self.data:
@@ -80,10 +80,10 @@ class AddressBook(UserDict):
             raise IndexError(error_messages["name_not_found"])
         
             
-    @input_error(error_messages["no_contact"])
+    # @input_error(error_messages["no_contact"])
     def show_phones(self, name):
         if not name in self.data:
-            raise KeyError()
+            raise KeyError(error_messages["no_contact"])
         else:
             return self.data[name].phones
     
@@ -154,7 +154,7 @@ class AddressBook(UserDict):
             # Перевірка, чи пошуковий термін міститься в будь-якому з атрибутів контакту
             if (
                 search_term in contact.name.value.lower()
-                or (contact.phones and search_term in map(str,contact.phones))
+                or (contact.phones and search_term in contact.phones)
                 # TODO доробити пошук коли будуть готові поля
                 # or (contact.email and search_term in contact.email.value.lower())
                 # or (contact.address and search_term in contact.address.value.lower())

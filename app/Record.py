@@ -1,6 +1,7 @@
 from app.Fields import Name, Phone, Email, Address, Birthday, Note, Tag
-from constants.messages import error_messages
+from constants.messages import error_messages, validation_messages
 from utils.error_handlers import input_error
+from utils.validators import is_valid_phone
 
 class Record:
     def __init__(self, name):
@@ -14,24 +15,25 @@ class Record:
 
     @input_error()
     def add_phone(self, phone):
-        phone = Phone(phone)
-        if phone.value:
-            if str(phone.value) in [str(p.value) for p in self.phones]:
+        if is_valid_phone(phone):
+            if phone in self.phones:
                 raise ValueError(error_messages["phone_exist"])
             self.phones.append(phone)
             self.phones.sort()
-        return bool(phone.value)
+            return True # ok, phone added
+        else:
+            raise ValueError(validation_messages["invalid_phone"])
         
-    @input_error()
+    # @input_error()
     def delete_phone(self, phone_to_del):
-        phone_to_del = Phone(phone_to_del)
-        if phone_to_del.value:
-            if str(phone_to_del.value) in [str(p.value) for p in self.phones]:
+        if is_valid_phone(phone_to_del):
+            if phone_to_del in self.phones:
                 self.phones.remove(phone_to_del)
                 return True # видалено успішно
+            else:
+                raise IndexError(error_messages["phone_not_exist"])
         else:
-            raise IndexError(error_messages["phone_not_exist"])        
-        return False
+            raise ValueError(validation_messages["invalid_phone"])
         
     def add_birthday(self, date):
         birthday = Birthday(date)
