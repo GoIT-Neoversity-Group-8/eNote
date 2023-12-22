@@ -1,8 +1,8 @@
 from datetime import datetime
 import re
 
-phone_pattern = re.compile(r'\d{10}')
-email_pattern = re.compile(r'') # TODO find regex for emails
+phone_pattern = re.compile(r'^\+?\d{10,15}$') # Valid format: +380123456789 or 0123456789
+email_pattern = re.compile(r'^\S+@\S+\.\S+$') # Valid format: example@email.com
 date_format_default = '%d.%m.%Y'
 
 def is_valid_date(date_string):
