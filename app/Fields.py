@@ -28,7 +28,7 @@ class Phone(Field):
         else:
             self.value = phone
 
-class Email:
+class Email(Field):
     def __init__(self, email):
         self.value = None
         self.set_value(email)
@@ -40,7 +40,7 @@ class Email:
         else:
             self.value = email
 
-class Address:
+class Address(Field):
     def __init__(self, address):
         self.value = address
 
