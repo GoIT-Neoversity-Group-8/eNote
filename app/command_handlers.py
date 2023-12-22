@@ -1,12 +1,10 @@
 from utils.error_handlers import input_error
-from utils.prompt_handlers import is_yes_prompt
-from constants.messages import error_messages, command_messages, validation_messages
+from constants.messages import error_messages, command_messages
 from app.AddressBook import AddressBook
 from utils.validators import *
 from utils.print_handlers import *
 from tabulate import tabulate
 from app.Record import Record
-from datetime import datetime, timedelta
 
 def bot_hello(args, book: AddressBook):
     print_hint(command_messages["hello"])
@@ -35,16 +33,23 @@ def delete_contact(args, book: AddressBook):
 def show_all(args, book: AddressBook):
     if not book.data:
         print(error_messages["no_contacts"])
-    else:
-        # Таблиця контактів
-        tbl_header = ["Name", "Phone", "Birthday", "Email", "Address", "Note"]
-        tbl_data = [
-            [record.name, "\n".join(record.phones), record.birthday, record.email, record.address, record.note]
-            for name, record in book.data.items()
+        return
+    # Таблиця контактів
+    tbl_header = ["Name", "Phone", "Birthday", "Email", "Address", "Note"]
+    tbl_data = [
+        [
+            record.name, 
+            "\n".join(list(map(str, record.phones))), 
+            str(record.birthday), 
+            str(record.email), 
+            str(record.address), 
+            str(record.note)
         ]
-        tbl_data = tbl_data or ["", "", "", "", "", ""]
-        tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_grid")
-        print(str(tbl))
+        for name, record in book.data.items()
+    ]
+    tbl_data = tbl_data or ["", "", "", "", "", ""]
+    tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_grid")
+    print(str(tbl))
 
 # -- Phones
 @input_error(error_messages["no_name_and_phone"])
@@ -170,7 +175,14 @@ def find_contact(args, book: AddressBook):
     if found_contacts: # якщо список знайдених не порожній - показуємо таблицю з результатами
         tbl_header = ["Name", "Phone", "Email", "Address", "Birthday", "Note"]
         tbl_data = [
-            [record.name, "\n".join(record.phones), record.birthday, record.email, record.address, record.note] 
+            [
+                record.name, 
+                "\n".join(list(map(str, record.phones))), 
+                str(record.birthday), 
+                str(record.email), 
+                str(record.address), 
+                str(record.note)
+            ] 
             for name, record in found_contacts.items()
         ]
         tbl_data = tbl_data or ["", "", "", "", "", ""]
