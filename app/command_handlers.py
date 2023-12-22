@@ -13,22 +13,22 @@ def bot_hello(args, book: AddressBook):
 @input_error(error_messages["no_name"])
 def add_contact(args, book: AddressBook):
     name = args[0]
-    book.add_contact(name)
-    print_success(command_messages["contact_added"])
+    is_updated = book.add_contact(name)
+    if is_updated:
+        print_success(command_messages["contact_added"])
 
 @input_error(error_messages["no_name"])
 def update_contact(args, book: AddressBook):
     name = args[0]
-    book.update_contact(name)
-    print_success(command_messages['contact_updated'].format(name=name))
+    is_updated = book.update_contact(name)
+    if is_updated:
+        print_success(command_messages['contact_updated'].format(name=name))
 
 @input_error(error_messages["no_name"])
 def delete_contact(args, book: AddressBook):
     name = args[0]
     if book.delete_contact(name):
         print_success(command_messages['contact_deleted'].format(name=name))
-    else:
-        print_error(error_messages["no_contact"])
 
 def show_all(args, book: AddressBook):
     if not book.data:
@@ -58,38 +58,66 @@ def add_phone(args, book: AddressBook):
     if book.add_phone(name, phone):
         print_success(command_messages["phone_added"])
 
-@input_error()
+@input_error(error_messages["no_name_and_phones"])
+def edit_phone(args, book: AddressBook):
+    name, old_phone, new_phone = args
+    if book.edit_phone(name, old_phone, new_phone):
+        print_success(command_messages["phone_updated"])
+
+@input_error(error_messages["no_name_and_phone"])
 def delete_phone(args, book: AddressBook):
-    try:
-        name, phone_to_del = args
-    except:
-        raise ValueError(error_messages["no_name_and_phone"])
-    
+    name, phone_to_del = args
     if book.delete_phone(name, phone_to_del):
         print_success(command_messages['phone_deleted'].format(name=name, phone=phone_to_del))
-    else:
-        print_error(error_messages["no_contact"])
 
-@input_error()
+@input_error(error_messages["no_name"])
 def show_phones(args, book: AddressBook):
-    try:
-        name = args[0]
-    except:
-        raise ValueError(error_messages["no_name"])
-    
+    name = args[0]
     phones = book.show_phones(name)
     if phones:
         txt_phones = ", ".join(map(str, phones))
         mess = command_messages['show_phones'].format(name=name)
         print_hint(f"{mess}: {txt_phones}")
     else:
-        print_error(error_messages["no_phones"])
+        print_hint(command_messages["no_phones"])
+
+# -- Email
+@input_error(error_messages["no_name_and_email"])
+def add_email(args, book: AddressBook):
+    name, email = args
+    if book.add_email(name, email):
+        print_success(command_messages["email_added"])
+
+@input_error(error_messages["no_name_and_email"])
+def edit_email(args, book: AddressBook):
+    name, new_email = args
+    if book.edit_email(name, new_email):
+        print_success(command_messages["email_updated"])
+
+@input_error(error_messages["no_name"])
+def delete_email(args, book: AddressBook):
+    name = args
+    if book.delete_email(name):
+        print_success(command_messages['email_deleted'])
+
+# -- Address
+@input_error(error_messages["no_name_and_email"])
+def add_address(args, book: AddressBook):
+    name, email = args
+    if book.add_address(name, email):
+        print_success(command_messages["address_added"])
+
+@input_error(error_messages["no_name"])
+def delete_address(args, book: AddressBook):
+    name = args
+    if book.delete_address(name):
+        print_success(command_messages['address_deleted'])
 
 # -- Birthdays
 @input_error(error_messages["no_name_and_birthday"])
 def add_birthday(args, book: AddressBook):
     name, birthday = args
-    record = book.find(name)
+    record: Record = book.find(name)
     if not record:
         print_error(error_messages["no_contact"])
     elif record.add_birthday(birthday):
@@ -98,10 +126,10 @@ def add_birthday(args, book: AddressBook):
 @input_error(error_messages["no_name"])
 def show_birthday(args, book: AddressBook):
     name = args[0]
-    record = book.find(name)
+    record: Record = book.find(name)
     if not record:
         print_error(error_messages["no_contact"])
-    elif record.birthday and record.birthday.value:
+    elif record.birthday and str(record.birthday):
         print_hint(command_messages["show_birthday"].format(birthday=record.birthday.value))
     else:
         print_hint(command_messages["no_birthday"])
@@ -139,6 +167,7 @@ def find_birthdays(args, book: AddressBook):
     tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
     print(str(tbl))    
 
+# -- complex search by string
 @input_error(error_messages["no_name"])
 def find_contact(args, book: AddressBook):
     search_term = ' '.join(args) #передані параметри вважаємо одним рядком і шукаємо по ньому
@@ -162,6 +191,7 @@ def find_contact(args, book: AddressBook):
     else: # якщоконтакти не знайдені - інформація і вихід
         print_error(error_messages["no_contact"])  
 
+# -- notes
 @input_error(error_messages["no_name"])
 def add_note(args, book: AddressBook):
     name = args[0]
@@ -180,9 +210,9 @@ def delete_note(args, book: AddressBook):
     record = book.find(name)
     if not record:
         print_error(error_messages["no_contact"])
-        return
-    record.delete_note()
-    print_success(command_messages["note_deleted"])
+    else:
+        record.delete_note()
+        print_success(command_messages["note_deleted"])
 
 @input_error(error_messages["no_note_tag"])
 def find_note_by_tag(args, book: AddressBook):

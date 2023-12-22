@@ -61,4 +61,3 @@ def address_book_bot():
                 handle_command(command, args, contacts)
         else:
             print_error(error_messages["no_command"])
-
