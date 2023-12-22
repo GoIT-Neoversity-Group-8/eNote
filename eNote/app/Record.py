@@ -4,14 +4,13 @@ from utils.error_handlers import input_error
 from utils.validators import is_valid_phone
 
 class Record:
-    def __init__(self, name):
+    def __init__(self, name, phones=None, birthday=None, email=None, address=None, note=None):
         self.name = Name(name)
-        self.phones = []
-        self.email = None
-        self.address = None
-        self.birthday = None
-        self.note = None
-        self.tags = []
+        self.phones = [Phone(phone) for phone in (phones or [])]
+        self.email = Email(email) if email else None
+        self.address = Address(address) if address else None
+        self.birthday = Birthday(birthday) if birthday else None
+        self.note = note if note else None
 
     # -- phones
     @property
@@ -70,7 +69,7 @@ class Record:
 
     # -- address
     def add_address(self, address, *args):
-        self.address = f"{address} {' '.join(args)}"
+        self.address = Address(f"{address} {' '.join(args)}")
         return True
     
     def delete_address(self):

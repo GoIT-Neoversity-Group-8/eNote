@@ -57,9 +57,9 @@ class Birthday(Field):
             self.value = date
 
 class Note():
-    def __init__(self, tag='', message=''):
-        self.tag = tag.strip().upper()
-        self.message = message
+    def __init__(self):
+        self.tag = ''
+        self.message = ''
 
     def set_message(self, message):
         self.message = message
@@ -69,6 +69,19 @@ class Note():
 
     def __str__(self):
         return f"Tag: {self.tag}, Message: {self.message}"
+    
+    def to_dict(self):
+        return {
+            'tag': self.tag,
+            'message': self.message
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        note_instance = cls()
+        note_instance.tag = data['tag']
+        note_instance.message = data['message']
+        return note_instance
 
 class Tag(Field):
     def __init__(self, tag):

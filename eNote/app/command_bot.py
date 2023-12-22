@@ -56,6 +56,7 @@ def address_book_bot():
 
             if command in ["close", "exit"]:
                 print_hint(command_messages["good_bye"])
+                contacts.save_data()
                 break
             else:
                 handle_command(command, args, contacts)
