@@ -68,6 +68,12 @@ command_info = {
         'description': command_descriptions["add_phone"],
         'parameters': ['{name}','{newPhone}'],
     },
+    'edit-phone': {
+        'function': edit_phone,
+        'example': "edit-phone 'John Doe' '0501234455' '0501234355'",
+        'description': command_descriptions["edit_phone"],
+        'parameters': ['{name}','{oldPhone}','{newPhone}'],
+    },
     'delete-phone': {
         'function': delete_phone,
         'example': "delete-phone 'John Doe' '0501234455'",
@@ -78,6 +84,42 @@ command_info = {
         'function': show_phones,
         'example': "show-phone 'name'",
         'description': command_descriptions["show_phones"],
+        'parameters': ['{name}'],
+    },
+    'add-email': {
+        'function': add_email,
+        'example': "add-email 'John Doe' 'john@doe.com'",
+        'description': command_descriptions["add_email"],
+        'parameters': ['{name}','{email}'],
+    },
+    'edit-email': {
+        'function': edit_email,
+        'example': "edit-email 'John Doe' 'john@doe.com'",
+        'description': command_descriptions["edit_email"],
+        'parameters': ['{name}','{newEmail}'],
+    },
+    'delete-email': {
+        'function': delete_email,
+        'example': "delete-email 'John Doe'",
+        'description': command_descriptions["delete_email"],
+        'parameters': ['{name}','{email}'],
+    },
+     'add-address': {
+        'function': add_address,
+        'example': "add-address 'John Doe' 'Осьо Туть'",
+        'description': command_descriptions["add_address"],
+        'parameters': ['{name}','{address}'],
+    },
+    'edit-address': {
+        'function': add_address,
+        'example': "edit-address 'John Doe' 'А тепер Туть'",
+        'description': command_descriptions["edit_address"],
+        'parameters': ['{name}','{newAddress}'],
+    },
+    'delete-address': {
+        'function': delete_address,
+        'example': "delete-address 'John Doe'",
+        'description': command_descriptions["delete_address"],
         'parameters': ['{name}'],
     },
     'add-birthday': {

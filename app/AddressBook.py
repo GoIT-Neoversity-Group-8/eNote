@@ -16,15 +16,16 @@ class AddressBook(UserDict):
         return self.data.get(name)
 
     def add_contact(self, name):
+        record = None
         if name in self.data:
             if is_yes_prompt(command_messages["prompt_edit_contact"].format(name=name)):
                 record = self.data[name]
         else:
             record = Record(name)
             self.data[name] = record
-        
         if bool(record):
             cycled_command_handler(record)
+            return True
 
     def update_contact(self, name):
         record = None
@@ -34,12 +35,15 @@ class AddressBook(UserDict):
             if is_yes_prompt(command_messages["prompt_add_contact"].format(name=name)):
                 record = Record(name)
                 self.data[name] = record
-
         if bool(record):
-            cycled_command_handler(record)
+            cycled_command_handler(record, is_edit_contact=True)
+            return True
 
+    @input_error()
     def delete_contact(self, name):
-        return self.data.pop(name, None)
+        deleted = self.data.pop(name, None)
+        if not deleted:
+            raise KeyError(error_messages["no_contact"])
     
     # -- note
     def add_note(self, name):
@@ -52,7 +56,7 @@ class AddressBook(UserDict):
                 self.data[name] = record
 
         if bool(record):
-            cycled_command_handler(record, True)
+            cycled_command_handler(record, is_note=True)
             return True
         else:
             return False
@@ -60,7 +64,7 @@ class AddressBook(UserDict):
     # -- phone
     @input_error()
     def add_phone(self, name, phone):
-        record = None
+        record: Record = None
         if name in self.data:
             record = self.find(name)
         else:
@@ -69,23 +73,77 @@ class AddressBook(UserDict):
                 self.data[name] = record
         if record:
             return record.add_phone(phone)
-
-    # @input_error()
-    def delete_phone(self, name, phone_to_del):
+    
+    @input_error()
+    def edit_phone(self, name, old_phone, new_phone):
         record: Record = None
-        if name in self.data:
+        if not name in self.data:
+            raise KeyError(error_messages["no_contact"])
+        else:
             record = self.find(name)
+        if record:
+            return record.edit_phone(old_phone, new_phone)
+
+    @input_error()
+    def delete_phone(self, name, phone_to_del):
+        if name in self.data:
+            record: Record = self.find(name)
             return record.delete_phone(phone_to_del)
         else: # контакту з таким іменем немає
             raise IndexError(error_messages["name_not_found"])
         
-            
-    # @input_error(error_messages["no_contact"])
+    @input_error()
     def show_phones(self, name):
         if not name in self.data:
             raise KeyError(error_messages["no_contact"])
         else:
             return self.data[name].phones
+
+    # -- email
+    @input_error()
+    def add_email(self, name, email):
+        record: Record = None
+        if name in self.data:
+            record = self.find(name)
+        else:
+            if is_yes_prompt(command_messages["prompt_add_contact"].format(name=name)):
+                record = Record(name)
+                self.data[name] = record
+        if record:
+            return record.add_email(email)
+    
+    @input_error()
+    def edit_email(self, name, email):
+        if not name in self.data:
+            raise KeyError(error_messages["no_contact"])
+        else:
+            record: Record = self.find(name)
+            return record.add_email(email)
+
+    @input_error()
+    def delete_email(self, name):
+        if not name in self.data:
+            raise KeyError(error_messages["no_contact"])
+        else:
+            record: Record = self.find(name)
+            return record.delete_email()
+
+    # -- address
+    @input_error()
+    def add_address(self, name, address):
+        if not name in self.data:
+            raise KeyError(error_messages["no_contact"])
+        else:
+            record: Record = self.find(name)
+            return record.add_address(address)
+
+    @input_error()
+    def delete_address(self, name):
+        if not name in self.data:
+            raise KeyError(error_messages["no_contact"])
+        else:
+            record: Record = self.find(name)
+            return record.delete_address()
     
     # -- notes
     def find_notes_by_tag(self, tag):
@@ -154,12 +212,13 @@ class AddressBook(UserDict):
             # Перевірка, чи пошуковий термін міститься в будь-якому з атрибутів контакту
             if (
                 search_term in contact.name.value.lower()
-                or (contact.phones and search_term in contact.phones)
+                or (contact.phones and search_term in contact.phones_str)
                 # TODO доробити пошук коли будуть готові поля
                 # or (contact.email and search_term in contact.email.value.lower())
                 # or (contact.address and search_term in contact.address.value.lower())
-                # or (contact.birthday and search_term == contact.birthday.value.lower())
-                # or (contact.note and search_term in contact.note.value.lower())
-                ):
+                or (contact.birthday and search_term == contact.birthday.value.lower()) # TODO need to check if is value ?
+                or (contact.note and search_term in contact.note.value.lower())
+                # TODO need to add tags ?
+            ):
                 found_contacts[name] = contact
         return found_contacts

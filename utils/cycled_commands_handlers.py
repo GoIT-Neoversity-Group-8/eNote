@@ -6,7 +6,7 @@ from utils.print_handlers import print_hint
 BLUE = "\033[94m"
 RESET = "\033[0m"
 
-def cycled_command_handler(record: Record, is_note = False):
+def cycled_command_handler(record: Record, is_edit_contact = False, is_note = False):
     cycled_command_fields = [        
         { 
             "text": command_messages["enter_note"],
@@ -19,15 +19,15 @@ def cycled_command_handler(record: Record, is_note = False):
     ] if is_note else [
         { 
             "text": command_messages["enter_phone"],
-            "handler": record.add_phone # TODO
+            "handler": record.edit_phone if is_edit_contact else record.add_phone
         },
         { 
             "text": command_messages["enter_email"],
-            "handler": record.add_note_message # TODO
+            "handler": record.add_email # TODO
         },
         { 
             "text": command_messages["enter_address"],
-            "handler": record.add_note_message # TODO
+            "handler": record.add_address # TODO
         },
         { 
             "text": command_messages["enter_birthday"],
