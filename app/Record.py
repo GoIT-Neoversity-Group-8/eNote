@@ -1,5 +1,6 @@
 from app.Fields import Name, Phone, Email, Address, Birthday, Note, Tag
 from constants.messages import error_messages
+from utils.error_handlers import input_error
 
 class Record:
     def __init__(self, name):
@@ -11,6 +12,7 @@ class Record:
         self.note = None
         self.tags = []
 
+    @input_error()
     def add_phone(self, phone):
         phone = Phone(phone)
         if phone.value:
