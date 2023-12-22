@@ -1,6 +1,6 @@
-from utils.validators import is_valid_email, is_valid_phone, is_valid_date
-from utils.error_handlers import input_error, validation_error, ValidationError
-from constants.messages import error_messages, validation_messages
+from eNote.utils.validators import is_valid_email, is_valid_phone, is_valid_date
+from eNote.utils.error_handlers import input_error, validation_error, ValidationError
+from eNote.constants.messages import error_messages, validation_messages
 
 class Field:
     def __init__(self, value):

@@ -1,12 +1,12 @@
-from collections import UserDict
-from utils.error_handlers import input_error
-from utils.prompt_handlers import is_yes_prompt
-from utils.cycled_commands_handlers import cycled_command_handler
-from constants.messages import error_messages, command_messages
-from app.Record import Record
-from datetime import datetime, timedelta
-from app.Fields import Note
 import json
+from collections import UserDict
+from datetime import datetime, timedelta
+from eNote.utils.error_handlers import input_error
+from eNote.utils.prompt_handlers import is_yes_prompt
+from eNote.utils.cycled_commands_handlers import cycled_command_handler
+from eNote.constants.messages import error_messages, command_messages
+from eNote.app.Record import Record
+from eNote.app.Fields import Note
 
 class AddressBook(UserDict):
     def __init__(self):

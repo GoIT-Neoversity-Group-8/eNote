@@ -9,7 +9,7 @@ setup(
     install_requires=["tabulate", "prompt_toolkit"],
     entry_points={
         "console_scripts": [
-            "enote = eNote.main:enot",
+            "enote = eNote.main:enote",
         ],
     },
 )

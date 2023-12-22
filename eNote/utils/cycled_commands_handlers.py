@@ -1,7 +1,7 @@
-from constants.messages import command_messages
-from utils.input_handlers import parse_input
-from app.Record import Record
-from utils.print_handlers import print_hint
+from eNote.constants.messages import command_messages
+from eNote.utils.input_handlers import parse_input
+from eNote.app.Record import Record
+from eNote.utils.print_handlers import print_hint
 
 BLUE = "\033[94m"
 RESET = "\033[0m"

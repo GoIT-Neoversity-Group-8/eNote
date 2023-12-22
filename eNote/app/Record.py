@@ -1,7 +1,7 @@
-from app.Fields import Name, Phone, Email, Address, Birthday, Note, Tag
-from constants.messages import error_messages, validation_messages
-from utils.error_handlers import input_error
-from utils.validators import is_valid_phone
+from eNote.app.Fields import Name, Phone, Email, Address, Birthday, Note, Tag
+from eNote.constants.messages import error_messages, validation_messages
+from eNote.utils.error_handlers import input_error
+from eNote.utils.validators import is_valid_phone
 
 class Record:
     def __init__(self, name, phones=None, birthday=None, email=None, address=None, note=None):

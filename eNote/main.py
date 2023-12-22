@@ -1,4 +1,4 @@
-from app.command_bot import address_book_bot
+from eNote.app.command_bot import address_book_bot
 
 def enote():
     address_book_bot()
