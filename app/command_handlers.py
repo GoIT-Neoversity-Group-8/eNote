@@ -53,6 +53,15 @@ def add_phone(args, book: AddressBook):
     if book.add_phone(name, phone):
         print_success(command_messages["phone_added"])
 
+@input_error(error_messages["no_name_and_phone"])
+def delete_phone(args, book: AddressBook):
+    name = args[0]
+    phone_to_del = args[1]
+    if book.delete_phone(name, phone_to_del):
+        print_success(command_messages['phone_deleted'].format(name=name, phone=phone_to_del))
+    else:
+        print_error(error_messages["no_contact"])
+
 @input_error(error_messages["no_name"])
 def show_phones(args, book: AddressBook):
     name = args[0]

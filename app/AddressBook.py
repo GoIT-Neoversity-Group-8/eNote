@@ -53,7 +53,17 @@ class AddressBook(UserDict):
                 self.data[name] = record
         if record:
             return record.add_phone(phone)
-    
+
+    @input_error()
+    def delete_phone(self, name, phone_to_del):
+        record: Record = None
+        if name in self.data:
+            record = self.find(name)
+            return record.delete_phone(phone_to_del)
+        else: # контакту з таким іменем немає
+            raise IndexError(error_messages["phone_not_exist"])
+        
+            
     @input_error(error_messages["no_contact"])
     def show_phones(self, name):
         if not name in self.data:
