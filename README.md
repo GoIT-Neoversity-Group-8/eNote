@@ -1,8 +1,6 @@
 # How to use
-``` git clone <repo> ```
-- open root terminal or run ``` main.py ``` file
-- for your changes:
-``` git checkout -b feat/<your_task_goal> ```
+``` git clone <eNote> ```
+- open root terminal and run ``` python3 main.py ```
 
 # Available Commands
 
