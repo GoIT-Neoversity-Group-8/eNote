@@ -124,15 +124,15 @@ command_info = {
     },
     'add-note': {
         'function': add_note,
-        'example': "add-note 'John' 'Reminder' 'Meeting at 5 PM'",
+        'example': "add-note 'John'",
         'description': command_descriptions["add_note"],
-        'parameters': ['{name}', '{tag}', '{message}'],
+        'parameters': ['{name}'],
     },
-    'edit-note': {
+    'update-note': {
         'function': edit_note,
-        'example': "edit-note 'John' 'Reminder' 'Updated meeting at 6 PM'",
+        'example': "edit-note 'John'",
         'description': command_descriptions["edit_note"],
-        'parameters': ['{name}', '{tag}', '{message}'],
+        'parameters': ['{name}'],
     },
     'find-notes-by-tag': {
         'function': find_note_by_tag,
