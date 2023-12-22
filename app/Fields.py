@@ -1,4 +1,4 @@
-from utils.validators import is_valid_phone, is_valid_date
+from utils.validators import is_valid_email, is_valid_phone, is_valid_date
 from utils.error_handlers import input_error, validation_error, ValidationError
 from constants.messages import error_messages, validation_messages
 
@@ -30,11 +30,19 @@ class Phone(Field):
 
 class Email:
     def __init__(self, email):
-        pass
+        self.value = None
+        self.set_value(email)
+
+    @validation_error
+    def set_value(self, email):
+        if not is_valid_email(email):
+            raise ValidationError(validation_messages["invalid_email"])
+        else:
+            self.value = email
 
 class Address:
     def __init__(self, address):
-        pass
+        self.value = address
 
 class Birthday(Field):
     def __init__(self, date):
@@ -46,7 +54,7 @@ class Birthday(Field):
         if not is_valid_date(date):
             raise ValidationError(validation_messages["invalid_date"])
         else:
-            self.value = Field(date)
+            self.value = date
 
 class Note():
     def __init__(self, tag='', message=''):
