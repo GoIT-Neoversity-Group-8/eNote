@@ -69,7 +69,7 @@ class Record:
 
     # -- address
     def add_address(self, address, *args):
-        self.address = f"{address} {' '.join(args)}"
+        self.address = Address(f"{address} {' '.join(args)}")
         return True
     
     def delete_address(self):

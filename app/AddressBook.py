@@ -233,7 +233,7 @@ class AddressBook(UserDict):
                     "name": contact.name.value,
                     "phones": contact.phone_str_list,
                     "email": contact.email.value if contact.email else None,
-                    "address": contact.address if contact.address else None,
+                    "address": contact.address.value if contact.address else None,
                     "birthday": contact.birthday.value if contact.birthday else None,
                     "note": contact.note.to_dict() if contact.note else None
                 }
