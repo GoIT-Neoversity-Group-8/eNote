@@ -66,6 +66,10 @@ def delete_phone(args, book: AddressBook):
         print_error(error_messages["no_contact"])
 
 @input_error()
+def update_phone(args, book: AddressBook):
+    pass # TODO 
+
+@input_error()
 def show_phones(args, book: AddressBook):
     try:
         name = args[0]
