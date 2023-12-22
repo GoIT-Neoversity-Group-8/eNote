@@ -40,6 +40,22 @@ class AddressBook(UserDict):
 
     def delete_contact(self, name):
         return self.data.pop(name, None)
+    
+    # -- note
+    def add_note(self, name):
+        record = None
+        if name in self.data:
+            record = self.data[name]
+        else:
+            if is_yes_prompt(command_messages["prompt_add_contact"].format(name=name)):
+                record = Record(name)
+                self.data[name] = record
+
+        if bool(record):
+            cycled_command_handler(record, True)
+            return True
+        else:
+            return False
 
     # -- phone
     @input_error()

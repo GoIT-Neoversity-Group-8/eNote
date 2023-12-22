@@ -1,40 +1,47 @@
 from constants.messages import command_messages
 from utils.input_handlers import parse_input
 from app.Record import Record
+from utils.print_handlers import print_hint
 
 BLUE = "\033[94m"
 RESET = "\033[0m"
 
-def cycled_command_handler(record: Record):
-    cycled_command_fields = [
+def cycled_command_handler(record: Record, is_note = False):
+    cycled_command_fields = [        
+        { 
+            "text": command_messages["enter_note"],
+            "handler": record.add_note_message
+        },
+        { 
+            "text": command_messages["enter_tag"],
+            "handler": record.add_note_tag
+        },
+    ] if is_note else [
         { 
             "text": command_messages["enter_phone"],
             "handler": record.add_phone # TODO
         },
         { 
             "text": command_messages["enter_email"],
-            "handler": record.add_note # TODO
+            "handler": record.add_note_message # TODO
         },
         { 
             "text": command_messages["enter_address"],
-            "handler": record.add_note # TODO
+            "handler": record.add_note_message # TODO
         },
         { 
             "text": command_messages["enter_birthday"],
             "handler": record.add_birthday
         },
-        { 
-            "text": command_messages["enter_note"],
-            "handler": record.add_note # TODO
-        },
-        # { 
-        #     "text": command_messages["enter_tag"],
-        #     "handler": record.add_note # TODO
-        # },
     ]
+    
+    print_hint(f'  {command_messages["cycle_hint_note"] if is_note else command_messages["cycle_hint_contact"]}')
 
     current_field = 0
     while True:
+        if (current_field) == len(cycled_command_fields):
+            break
+
         user_input = input(
             BLUE + '    ' + 
             cycled_command_fields[current_field]["text"] +
@@ -47,9 +54,7 @@ def cycled_command_handler(record: Record):
 
         if value == 'e':
             break
-        elif not value or value == 'n':
-            if (current_field + 1) == len(cycled_command_fields):
-                break
+        elif not value or value == 'n':            
             current_field += 1
             continue
         else:
