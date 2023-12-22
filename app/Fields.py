@@ -9,6 +9,9 @@ class Field:
     def __str__(self):
         return str(self.value)
 
+    def __repr__(self):
+        return str(self.value)
+
 class Name(Field):
     def __init__(self, name):
         self.value = name
@@ -24,6 +27,24 @@ class Phone(Field):
             raise ValidationError(validation_messages["invalid_phone"])
         else:
             self.value = Field(phone)
+
+    def __eq__(self, other: object) -> bool:
+        return self.value.value == other.value.value
+
+    def __ne__(self, other: object) -> bool:
+        return self.value.value != other.value.value
+    
+    def __lt__(self, other: object) -> bool:
+        return int(self.value.value) < int(other.value.value)
+
+    def __gt__(self, other: object) -> bool:
+        return int(self.value.value) > int(other.value.value)
+
+    def __le__(self, other: object) -> bool:
+        return int(self.value.value) <= int(other.value.value)
+
+    def __ge__(self, other: object) -> bool:
+        return int(self.value.value) >= int(other.value.value)
 
 class Email:
     def __init__(self, email):

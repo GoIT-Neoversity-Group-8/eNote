@@ -58,6 +58,7 @@ class AddressBook(UserDict):
             return False
 
     # -- phone
+    @input_error()
     def add_phone(self, name, phone):
         record = None
         if name in self.data:
