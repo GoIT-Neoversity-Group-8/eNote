@@ -19,7 +19,10 @@ class CommandCompleter(Completer):
         text_before_cursor = document.text_before_cursor
 
         # Split the input to get the command
-        command, *rest = text_before_cursor.split()
+        if text_before_cursor:
+            command, *rest = text_before_cursor.split()
+        else:
+            command = ""
 
         # If there's a command and it is in the list
         if command:            
