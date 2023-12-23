@@ -1,3 +1,4 @@
+""""Main class AddressBook."""
 import json
 from collections import UserDict
 from datetime import datetime, timedelta
@@ -9,9 +10,14 @@ from app.Record import Record
 from app.Fields import Note
 
 class AddressBook(UserDict):
-    def __init__(self):
+    """Main class for addressbook.
+    
+    load_data=True - по замочуванню при створенні об'єкта - завантажуються
+    збережені контакти із файлу"""
+    def __init__(self, load_data=True):
         super().__init__()
-        self.load_data()
+        if load_data:
+            self.load_data()
 
     # -- contact
     def find(self, name):        
@@ -207,7 +213,7 @@ class AddressBook(UserDict):
 
     # -- complex search
     def find_contact(self, search_term: str):
-        found_contacts = {}
+        found_contacts = AddressBook(load_data=False)
         search_term = search_term.lower()
         contact: Record
         for name, contact in self.data.items():
@@ -226,7 +232,7 @@ class AddressBook(UserDict):
         return found_contacts
     
     def save_data(self):
-        with open('contacts.json', 'w') as file:
+        with open('contacts.json', 'w', encoding="utf-8") as file:
             json_data = {}
             for name, contact in self.data.items():
                 json_data[name] = {
@@ -241,7 +247,7 @@ class AddressBook(UserDict):
 
     def load_data(self):
         try:
-            with open('contacts.json', 'r') as file:
+            with open('contacts.json', 'r', encoding="utf-8") as file:
                 json_data = json.load(file)
                 for name, contact_data in json_data.items():
                     self.data[name] = Record(

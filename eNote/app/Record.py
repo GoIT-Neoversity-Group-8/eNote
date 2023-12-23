@@ -49,8 +49,7 @@ class Record:
             raise ValueError(validation_messages["invalid_phone"])
         else:
             if phone_to_del in self.phone_str_list:
-                index = self.phone_str_list.index(phone_to_del)
-                self.phones.pop(index, None)
+                self.phones.remove(Phone(phone_to_del))
                 return True
             else:
                 raise IndexError(error_messages["phone_not_exist"])

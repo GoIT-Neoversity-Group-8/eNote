@@ -1,10 +1,19 @@
 {
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "main",
             "type": "python",
             "request": "launch",
             // "program": "${file}",
+            // шлях до модуля який запускається автоматично по F5 з будь-якого місця
             "program": "${workspaceFolder}/eNote/main.py",
             "cwd": "${workspaceFolder}",
             "justMyCode": true
