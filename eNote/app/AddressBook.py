@@ -1,15 +1,17 @@
+import json
 from collections import UserDict
-from utils.error_handlers import input_error
-from utils.prompt_handlers import is_yes_prompt
-from utils.cycled_commands_handlers import cycled_command_handler
-from constants.messages import error_messages, command_messages
-from app.Record import Record
 from datetime import datetime, timedelta
+from eNote.utils.error_handlers import input_error
+from eNote.utils.prompt_handlers import is_yes_prompt
+from eNote.utils.cycled_commands_handlers import cycled_command_handler
+from eNote.constants.messages import error_messages, command_messages
+from eNote.app.Record import Record
+from eNote.app.Fields import Note
 
 class AddressBook(UserDict):
     def __init__(self):
         super().__init__()
-        # TODO self.load_data()
+        self.load_data()
 
     # -- contact
     def find(self, name):        
@@ -130,12 +132,12 @@ class AddressBook(UserDict):
 
     # -- address
     @input_error()
-    def add_address(self, name, address):
+    def add_address(self, name, address, *args):
         if not name in self.data:
             raise KeyError(error_messages["no_contact"])
         else:
             record: Record = self.find(name)
-            return record.add_address(address)
+            return record.add_address(address, *args)
 
     @input_error()
     def delete_address(self, name):
@@ -222,3 +224,33 @@ class AddressBook(UserDict):
             ):
                 found_contacts[name] = contact
         return found_contacts
+    
+    def save_data(self):
+        with open('contacts.json', 'w') as file:
+            json_data = {}
+            for name, contact in self.data.items():
+                json_data[name] = {
+                    "name": contact.name.value,
+                    "phones": contact.phone_str_list,
+                    "email": contact.email.value if contact.email else None,
+                    "address": contact.address.value if contact.address else None,
+                    "birthday": contact.birthday.value if contact.birthday else None,
+                    "note": contact.note.to_dict() if contact.note else None
+                }
+            json.dump(json_data, file)
+
+    def load_data(self):
+        try:
+            with open('contacts.json', 'r') as file:
+                json_data = json.load(file)
+                for name, contact_data in json_data.items():
+                    self.data[name] = Record(
+                        name=contact_data['name'],
+                        phones=contact_data['phones'],
+                        email=contact_data['email'],
+                        address=contact_data['address'],
+                        birthday=contact_data['birthday'],
+                        note=Note.from_dict(contact_data['note']) if 'note' in contact_data and contact_data['note'] is not None else None
+                    )
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.data = {}

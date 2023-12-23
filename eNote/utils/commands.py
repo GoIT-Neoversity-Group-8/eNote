@@ -1,6 +1,6 @@
-from app.command_handlers import *
-from constants.messages import *
-from utils.print_handlers import *
+from eNote.app.command_handlers import *
+from eNote.constants.messages import *
+from eNote.utils.print_handlers import *
 from tabulate import tabulate
 
 def bot_help(args, book):

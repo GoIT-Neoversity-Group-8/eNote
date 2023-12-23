@@ -1,6 +1,6 @@
-from utils.validators import is_valid_email, is_valid_phone, is_valid_date
-from utils.error_handlers import input_error, validation_error, ValidationError
-from constants.messages import error_messages, validation_messages
+from eNote.utils.validators import is_valid_email, is_valid_phone, is_valid_date
+from eNote.utils.error_handlers import input_error, validation_error, ValidationError
+from eNote.constants.messages import error_messages, validation_messages
 
 class Field:
     def __init__(self, value):
@@ -57,9 +57,9 @@ class Birthday(Field):
             self.value = date
 
 class Note():
-    def __init__(self, tag='', message=''):
-        self.tag = tag.strip().upper()
-        self.message = message
+    def __init__(self):
+        self.tag = ''
+        self.message = ''
 
     def set_message(self, message):
         self.message = message
@@ -69,6 +69,19 @@ class Note():
 
     def __str__(self):
         return f"Tag: {self.tag}, Message: {self.message}"
+    
+    def to_dict(self):
+        return {
+            'tag': self.tag,
+            'message': self.message
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        note_instance = cls()
+        note_instance.tag = data['tag']
+        note_instance.message = data['message']
+        return note_instance
 
 class Tag(Field):
     def __init__(self, tag):
