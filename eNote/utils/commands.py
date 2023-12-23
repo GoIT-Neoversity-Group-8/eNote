@@ -80,12 +80,6 @@ command_info = {
         'description': command_descriptions["delete_phone"],
         'parameters': ['{name}','{phone}'],
     },
-    'update-phone': { # TODO зробити оновлення телефону
-        'function': update_phone,
-        'example': "update-phone 'John Doe' '0501234455'",
-        'description': command_descriptions["update_phone"],
-        'parameters': ['{name}','{phone}'],
-    },
     'show-phone': {
         'function': show_phones,
         'example': "show-phone 'name'",
