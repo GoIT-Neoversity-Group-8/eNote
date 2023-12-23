@@ -1,10 +1,10 @@
 from tabulate import tabulate
-from eNote.utils.error_handlers import input_error
-from eNote.constants.messages import error_messages, command_messages
-from eNote.app.AddressBook import AddressBook
-from eNote.utils.validators import *
-from eNote.utils.print_handlers import *
-from eNote.app.Record import Record
+from utils.error_handlers import input_error
+from constants.messages import error_messages, command_messages
+from app.AddressBook import AddressBook
+from utils.validators import *
+from utils.print_handlers import *
+from app.Record import Record
 
 def bot_hello(args, book: AddressBook):
     print_hint(command_messages["hello"])

@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "name": "main",
+            "type": "python",
+            "request": "launch",
+            // "program": "${file}",
+            "program": "${workspaceFolder}/eNote/main.py",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true
+        }
+    ]
+}

@@ -1,5 +1,5 @@
-from eNote.utils.error_handlers import input_error
-from eNote.constants.messages import error_messages, command_messages
+from utils.error_handlers import input_error
+from constants.messages import error_messages, command_messages
 import shlex
 
 @input_error(error_messages["no_command"])

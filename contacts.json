@@ -1,1 +1,15 @@
-{"Jo": {"name": "Jo", "phones": [], "email": null, "address": "lviv 18", "birthday": "10.12.1963", "note": null}}
+{
+    "Jo": {
+        "name": "Jo",
+        "phones": [
+            "0971111111",
+            "0975555555",
+            "0973333333",
+            "0974444444"
+        ],
+        "email": null,
+        "address": "lviv 18",
+        "birthday": "10.12.1963",
+        "note": null
+    }
+}

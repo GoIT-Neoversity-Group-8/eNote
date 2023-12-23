@@ -1,8 +1,8 @@
-from eNote.constants.messages import command_messages, error_messages
-from eNote.app.AddressBook import AddressBook
-from eNote.utils.commands import handle_command, command_keys, command_parameters
-from eNote.utils.input_handlers import parse_input
-from eNote.utils.print_handlers import *
+from constants.messages import command_messages, error_messages
+from app.AddressBook import AddressBook
+from utils.commands import handle_command, command_keys, command_parameters
+from utils.input_handlers import parse_input
+from utils.print_handlers import *
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.formatted_text import HTML
