@@ -14,8 +14,8 @@
             "request": "launch",
             // "program": "${file}",
             // шлях до модуля який запускається автоматично по F5 з будь-якого місця
-            "program": "${workspaceFolder}/eNote/main.py",
-            "cwd": "${workspaceFolder}",
+            // "program": "${workspaceFolder}/eNote/main.py",
+            "module": "eNote.main",
             "justMyCode": true
         }
     ]

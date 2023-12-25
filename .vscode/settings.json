@@ -3,5 +3,7 @@
     // "python.envFile": "${workspaceFolder}/.env",
     // "python.autoComplete.extraPaths": ["${workspaceFolder}"],
     // "python.analysis.extraPaths": ["${workspaceFolder}"],
-    "python.analysis.extraPaths": ["./eNote"],
+    "python.analysis.extraPaths": [
+        "./eNote"
+    ],
 }
