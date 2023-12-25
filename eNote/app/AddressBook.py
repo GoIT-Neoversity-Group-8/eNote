@@ -43,12 +43,14 @@ class AddressBook(UserDict):
         record = None
         if name in self.data:
             record = self.data[name]
+            is_edit_contact = True
         else:
             if is_yes_prompt(command_messages["prompt_add_contact"].format(name=name)):
                 record = Record(name)
                 self.data[name] = record
+                is_edit_contact = False
         if bool(record):
-            cycled_command_handler(record, is_edit_contact=True)
+            cycled_command_handler(record, is_edit_contact)
             return True
 
     @input_error()
