@@ -1,4 +1,4 @@
-from utils.print_handlers import *
+from eNote.utils.print_handlers import *
 
 # -- Decorator for input error handling
 def input_error(parentError = None):

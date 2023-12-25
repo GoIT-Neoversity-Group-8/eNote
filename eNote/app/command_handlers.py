@@ -1,10 +1,10 @@
 from tabulate import tabulate
-from utils.error_handlers import input_error
-from constants.messages import error_messages, command_messages
-from app.AddressBook import AddressBook
-from utils.validators import *
-from utils.print_handlers import *
-from app.Record import Record
+from eNote.utils.error_handlers import input_error
+from eNote.constants.messages import error_messages, command_messages
+from eNote.app.AddressBook import AddressBook
+from eNote.utils.validators import *
+from eNote.utils.print_handlers import *
+from eNote.app.Record import Record
 
 def bot_hello(args, book: AddressBook):
     print_hint(command_messages["hello"])
@@ -82,7 +82,7 @@ def edit_email(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def delete_email(args, book: AddressBook):
-    name = args
+    name = args[0]
     if book.delete_email(name):
         print_success(command_messages['email_deleted'])
 
@@ -95,7 +95,7 @@ def add_address(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def delete_address(args, book: AddressBook):
-    name = args
+    name = args[0]
     if book.delete_address(name):
         print_success(command_messages['address_deleted'])
 
@@ -154,9 +154,15 @@ def find_birthdays(args, book: AddressBook):
     print(str(tbl))    
 
 # -- complex search by string
-@input_error(error_messages["no_name"])
+@input_error(error_messages["find_what"])
 def find_contact(args, book: AddressBook):
-    search_term = ' '.join(args) #передані параметри вважаємо одним рядком і шукаємо по ньому
+    """Search the contact.
+
+    Search for the specified text in all fields of the contact."""
+    #передані параметри вважаємо одним рядком і шукаємо по ньому
+    search_term = ' '.join(args).strip()
+    if not search_term:
+        raise ValueError()
     found_contacts = book.find_contact(search_term)
     if found_contacts: # якщо список знайдених не порожній - показуємо таблицю з результатами
         print_book(found_contacts)

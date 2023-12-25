@@ -1,6 +1,6 @@
 """Print utils."""
 from tabulate import tabulate
-# from app.AddressBook import AddressBook
+# from eNote.app.AddressBook import AddressBook
 
 RED = "\033[91m"
 CYAN = "\033[96m"
@@ -34,6 +34,29 @@ def print_hint(msg):
     """Print hints."""
     print(ORANGE + str(msg) + RESET)
 
+def format_text_width(text, width = 20):
+    """Formats the string length to [width].
+    
+    The result is a multi-line variable with \\n characters.
+    The line width is set to [width] = 20
+    """
+    if not text:
+        return None
+    text = str(text)
+    words = text.split()
+    current_line = ""
+    formated_lines = []
+    for word in words:
+        if len(current_line + word) <= width:
+            current_line += word + " "
+        else:
+            formated_lines.append(current_line.strip())
+            current_line = word + " "
+    formated_lines.append(current_line.strip())
+    formated_text = "\n".join(formated_lines)
+    return formated_text
+
+
 
 def print_book(book):
     """Print AddressBook as a table.
@@ -46,8 +69,8 @@ def print_book(book):
             "\n".join(list(map(str, record.phones))),
             record.birthday,
             record.email,
-            record.address,
-            record.note,
+            format_text_width(record.address,30),
+            format_text_width(record.note, 30),
         ]
         for name, record in book.data.items()
     ]
