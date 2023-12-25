@@ -29,11 +29,13 @@ class Record:
                 raise ValueError(error_messages["phone_exist"])
             else:
                 self.phones.append(phone)
-                # self.phones.sort() # - error
+                self.phones.sort()
                 return True
 
     @input_error()
-    def edit_phone(self, old_phone, new_phone):
+    def edit_phone(self, old_phone, new_phone=None):
+        if not new_phone:
+            raise ValueError(error_messages["no_new_phone"])
         if not old_phone in self.phone_str_list:
             raise ValueError(error_messages["phone_not_exist"])
         else:
@@ -49,8 +51,7 @@ class Record:
             raise ValueError(validation_messages["invalid_phone"])
         else:
             if phone_to_del in self.phone_str_list:
-                index = self.phone_str_list.index(phone_to_del)
-                self.phones.pop(index, None)
+                self.phones.remove(Phone(phone_to_del))
                 return True
             else:
                 raise IndexError(error_messages["phone_not_exist"])

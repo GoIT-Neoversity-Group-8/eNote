@@ -1,0 +1,7 @@
+{
+    // "python.pythonPath": "путь_к_python.exe",
+    // "python.envFile": "${workspaceFolder}/.env",
+    // "python.autoComplete.extraPaths": ["${workspaceFolder}"],
+    // "python.analysis.extraPaths": ["${workspaceFolder}"],
+    "python.analysis.extraPaths": ["./eNote"],
+}

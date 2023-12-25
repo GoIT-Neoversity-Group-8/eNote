@@ -104,7 +104,7 @@ command_info = {
         'description': command_descriptions["delete_email"],
         'parameters': ['{name}','{email}'],
     },
-     'add-address': {
+    'add-address': {
         'function': add_address,
         'example': "add-address 'John Doe' 'Осьо Туть'",
         'description': command_descriptions["add_address"],

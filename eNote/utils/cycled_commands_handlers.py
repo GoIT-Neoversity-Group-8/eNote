@@ -7,29 +7,35 @@ BLUE = "\033[94m"
 RESET = "\033[0m"
 
 def cycled_command_handler(record: Record, is_edit_contact = False, is_note = False):
+    """Updated contact data.
+
+    The function sequentially in interactive mode prompts you to update all fields
+    of the contact, with the possibility of skipping changes or exiting the update
+    cycle."""
+
     cycled_command_fields = [        
-        { 
+        {
             "text": command_messages["enter_note"],
             "handler": record.add_note_message
         },
-        { 
+        {
             "text": command_messages["enter_tag"],
             "handler": record.add_note_tag
         },
     ] if is_note else [
-        { 
+        {
             "text": command_messages["enter_phone"],
             "handler": record.edit_phone if is_edit_contact else record.add_phone
         },
-        { 
+        {
             "text": command_messages["enter_email"],
             "handler": record.add_email # TODO
         },
-        { 
+        {
             "text": command_messages["enter_address"],
             "handler": record.add_address # TODO
         },
-        { 
+        {
             "text": command_messages["enter_birthday"],
             "handler": record.add_birthday
         },
@@ -43,7 +49,7 @@ def cycled_command_handler(record: Record, is_edit_contact = False, is_note = Fa
             break
 
         user_input = input(
-            BLUE + '    ' + 
+            BLUE + '    ' +
             cycled_command_fields[current_field]["text"] +
             RESET
         )
@@ -54,7 +60,7 @@ def cycled_command_handler(record: Record, is_edit_contact = False, is_note = Fa
 
         if value == 'e':
             break
-        elif not value or value == 'n':            
+        elif not value or value == 'n':
             current_field += 1
             continue
         else:

@@ -35,21 +35,7 @@ def show_all(args, book: AddressBook):
         print(error_messages["no_contacts"])
         return
     # Таблиця контактів
-    tbl_header = ["Name", "Phone", "Birthday", "Email", "Address", "Note"]
-    tbl_data = [
-        [
-            record.name, 
-            "\n".join(list(map(str, record.phones))), 
-            str(record.birthday), 
-            str(record.email), 
-            str(record.address), 
-            str(record.note)
-        ]
-        for name, record in book.data.items()
-    ]
-    tbl_data = tbl_data or ["", "", "", "", "", ""]
-    tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_grid")
-    print(str(tbl))
+    print_book(book)
 
 # -- Phones
 @input_error(error_messages["no_name_and_phone"])
@@ -96,7 +82,7 @@ def edit_email(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def delete_email(args, book: AddressBook):
-    name = args
+    name = args[0]
     if book.delete_email(name):
         print_success(command_messages['email_deleted'])
 
@@ -109,7 +95,7 @@ def add_address(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def delete_address(args, book: AddressBook):
-    name = args
+    name = args[0]
     if book.delete_address(name):
         print_success(command_messages['address_deleted'])
 
@@ -168,26 +154,18 @@ def find_birthdays(args, book: AddressBook):
     print(str(tbl))    
 
 # -- complex search by string
-@input_error(error_messages["no_name"])
+@input_error(error_messages["find_what"])
 def find_contact(args, book: AddressBook):
-    search_term = ' '.join(args) #передані параметри вважаємо одним рядком і шукаємо по ньому
+    """Search the contact.
+
+    Search for the specified text in all fields of the contact."""
+    #передані параметри вважаємо одним рядком і шукаємо по ньому
+    search_term = ' '.join(args).strip()
+    if not search_term:
+        raise ValueError()
     found_contacts = book.find_contact(search_term)
     if found_contacts: # якщо список знайдених не порожній - показуємо таблицю з результатами
-        tbl_header = ["Name", "Phone", "Email", "Address", "Birthday", "Note"]
-        tbl_data = [
-            [
-                record.name, 
-                "\n".join(list(map(str, record.phones))), 
-                str(record.birthday), 
-                str(record.email), 
-                str(record.address), 
-                str(record.note)
-            ] 
-            for name, record in found_contacts.items()
-        ]
-        tbl_data = tbl_data or ["", "", "", "", "", ""]
-        tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_grid")
-        print(str(tbl))
+        print_book(found_contacts)
     else: # якщоконтакти не знайдені - інформація і вихід
         print_error(error_messages["no_contact"])  
 

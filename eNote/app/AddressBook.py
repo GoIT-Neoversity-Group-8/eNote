@@ -1,3 +1,4 @@
+""""Main class AddressBook."""
 import json
 from collections import UserDict
 from datetime import datetime, timedelta
@@ -9,15 +10,22 @@ from eNote.app.Record import Record
 from eNote.app.Fields import Note
 
 class AddressBook(UserDict):
-    def __init__(self):
+    """Main class for addressbook.
+
+    load_data=True - по замочуванню при створенні об'єкта - завантажуються
+    збережені контакти із файлу"""
+    def __init__(self, load_data=True):
         super().__init__()
-        self.load_data()
+        if load_data:
+            self.load_data()
 
     # -- contact
-    def find(self, name):        
+    def find(self, name):
+        """Find contact by name"""
         return self.data.get(name)
 
     def add_contact(self, name):
+        """Add new  contact"""
         record = None
         if name in self.data:
             if is_yes_prompt(command_messages["prompt_edit_contact"].format(name=name)):
@@ -29,7 +37,9 @@ class AddressBook(UserDict):
             cycled_command_handler(record)
             return True
 
+    @input_error()
     def update_contact(self, name):
+        """Update contact in loop."""
         record = None
         if name in self.data:
             record = self.data[name]
@@ -43,12 +53,15 @@ class AddressBook(UserDict):
 
     @input_error()
     def delete_contact(self, name):
+        """Delete contact by name."""
         deleted = self.data.pop(name, None)
         if not deleted:
             raise KeyError(error_messages["no_contact"])
-    
+        return True
+
     # -- note
     def add_note(self, name):
+        """Add note to contact."""
         record = None
         if name in self.data:
             record = self.data[name]
@@ -75,7 +88,7 @@ class AddressBook(UserDict):
                 self.data[name] = record
         if record:
             return record.add_phone(phone)
-    
+
     @input_error()
     def edit_phone(self, name, old_phone, new_phone):
         record: Record = None
@@ -93,7 +106,7 @@ class AddressBook(UserDict):
             return record.delete_phone(phone_to_del)
         else: # контакту з таким іменем немає
             raise IndexError(error_messages["name_not_found"])
-        
+
     @input_error()
     def show_phones(self, name):
         if not name in self.data:
@@ -113,7 +126,7 @@ class AddressBook(UserDict):
                 self.data[name] = record
         if record:
             return record.add_email(email)
-    
+
     @input_error()
     def edit_email(self, name, email):
         if not name in self.data:
@@ -146,7 +159,7 @@ class AddressBook(UserDict):
         else:
             record: Record = self.find(name)
             return record.delete_address()
-    
+
     # -- notes
     def find_notes_by_tag(self, tag):
         notes = []
@@ -155,31 +168,31 @@ class AddressBook(UserDict):
                 notes.append({"name": name, "message": record.note.message})
 
         notes.sort(key=lambda x: x["name"].lower())
-        return notes    
-    
+        return notes
+
     def find_notes(self, search_term):
         notes = []
         search_term = search_term.lower()
         for name, record in self.data.items():
             if record.note and (search_term in record.note.tag.lower() or search_term in record.note.message.lower()):
                 notes.append({"name": name, "tag": record.note.tag, "message": record.note.message})
-        
+
         notes.sort(key=lambda x: x["tag"].lower())
         return notes
-    
+
     # -- birthdays
     def show_birthdays(self):
         data = []
         for name, record in self.data.items():
             if record.birthday and str(record.birthday):
                 data.append({
-                    "name": name, 
+                    "name": name,
                     "birthday": str(record.birthday)
                 })
-        
+
         data.sort(key=lambda x: x["name"].lower())
         return data
-    
+
     def find_birthdays_in_days(self, days):
         birthdays = {}
         current_date = datetime.now()
@@ -188,15 +201,15 @@ class AddressBook(UserDict):
         for name, record in self.data.items():
             birthday_str = str(record.birthday) if (record.birthday and record.birthday.value) else None
             if birthday_str:
-                birthday = datetime.strptime(birthday_str, '%d.%m.%Y')                    
+                birthday = datetime.strptime(birthday_str, '%d.%m.%Y')
                 birthday_this_year = birthday.replace(year=current_date.year, month=birthday.month, day=birthday.day)
                 birthday_next_year = birthday_this_year.replace(year=current_date.year + 1)
-                    
-                if current_date <= birthday_this_year <= future_date:                       
+
+                if current_date <= birthday_this_year <= future_date:
                     if not birthday_this_year.date() in birthdays:
                         birthdays[birthday_this_year.date()] = []
                     birthdays[birthday_this_year.date()].append(name)
-                   
+
                 if current_date <= birthday_next_year <= future_date:
                     if not birthday_next_year.date() in birthdays:
                         birthdays[birthday_next_year.date()] = []
@@ -207,7 +220,7 @@ class AddressBook(UserDict):
 
     # -- complex search
     def find_contact(self, search_term: str):
-        found_contacts = {}
+        found_contacts = AddressBook(load_data=False)
         search_term = search_term.lower()
         contact: Record
         for name, contact in self.data.items():
@@ -215,18 +228,18 @@ class AddressBook(UserDict):
             if (
                 search_term in contact.name.value.lower()
                 or (contact.phones and search_term in contact.phones_str)
-                # TODO доробити пошук коли будуть готові поля
-                # or (contact.email and search_term in contact.email.value.lower())
-                # or (contact.address and search_term in contact.address.value.lower())
-                or (contact.birthday and search_term == contact.birthday.value.lower()) # TODO need to check if is value ?
-                or (contact.note and search_term in contact.note.value.lower())
-                # TODO need to add tags ?
+                or (contact.email and search_term in contact.email.value.lower())
+                or (contact.address and search_term in contact.address.value.lower())
+                or (contact.birthday and search_term == contact.birthday.value.lower())
+                or (contact.note and search_term in contact.note.message.lower())
+                or (contact.note and search_term in contact.note.tag.lower())
             ):
                 found_contacts[name] = contact
         return found_contacts
-    
+
     def save_data(self):
-        with open('contacts.json', 'w') as file:
+        """Save address book to file."""
+        with open('contacts.json', 'w', encoding="utf-8") as file:
             json_data = {}
             for name, contact in self.data.items():
                 json_data[name] = {
@@ -240,8 +253,9 @@ class AddressBook(UserDict):
             json.dump(json_data, file)
 
     def load_data(self):
+        """Load address book from file."""
         try:
-            with open('contacts.json', 'r') as file:
+            with open('contacts.json', 'r', encoding="utf-8") as file:
                 json_data = json.load(file)
                 for name, contact_data in json_data.items():
                     self.data[name] = Record(
