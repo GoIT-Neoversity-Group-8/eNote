@@ -204,6 +204,12 @@ command_info = {
         "description": command_descriptions["delete_note"],
         "parameters": ["{name}"],
     },
+    "rename": {
+        "function": rename,
+        "example": "rename 'John' 'Jack'",
+        "description": command_descriptions["delete_note"],
+        "parameters": ["{name}"],
+    },
 }
 
 # Ordered dictionary for command_info data

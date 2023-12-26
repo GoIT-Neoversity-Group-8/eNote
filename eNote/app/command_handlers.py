@@ -1,17 +1,21 @@
+"""Commands for interacting with the address book."""
+
 from tabulate import tabulate
 from eNote.utils.error_handlers import input_error
 from eNote.constants.messages import error_messages, command_messages
 from eNote.app.AddressBook import AddressBook
-from eNote.utils.validators import *
-from eNote.utils.print_handlers import *
+# from eNote.utils.validators import * # pylint: disable=wildcard-import
+from eNote.utils.print_handlers import print_book, print_hint, print_success, print_error
 from eNote.app.Record import Record
 
 def bot_hello(args, book: AddressBook):
+    """Print Hello message"""
     print_hint(command_messages["hello"])
 
 # -- Contact
 @input_error(error_messages["no_name"])
 def add_contact(args, book: AddressBook):
+    """Add contact to address book."""
     name = args[0]
     is_updated = book.add_contact(name)
     if is_updated:
@@ -19,6 +23,7 @@ def add_contact(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def update_contact(args, book: AddressBook):
+    """Update contact in loop by Name."""
     name = args[0]
     is_updated = book.update_contact(name)
     if is_updated:
@@ -26,11 +31,13 @@ def update_contact(args, book: AddressBook):
 
 @input_error(error_messages["no_name"])
 def delete_contact(args, book: AddressBook):
+    """Delete contact by name."""
     name = args[0]
     if book.delete_contact(name):
         print_success(command_messages['contact_deleted'].format(name=name))
 
 def show_all(args, book: AddressBook):
+    """Show a table with all contacts"""
     if not book.data:
         print_error(error_messages["no_contacts"])
         return
@@ -40,24 +47,28 @@ def show_all(args, book: AddressBook):
 # -- Phones
 @input_error(error_messages["no_name_and_phone"])
 def add_phone(args, book: AddressBook):
+    """Add another phone to the contact by name."""
     name, phone = args
     if book.add_phone(name, phone):
         print_success(command_messages["phone_added"])
 
 @input_error(error_messages["no_name_and_phones"])
 def edit_phone(args, book: AddressBook):
+    """Change the phone in the contact by name."""
     name, old_phone, new_phone = args
     if book.edit_phone(name, old_phone, new_phone):
         print_success(command_messages["phone_updated"])
 
 @input_error(error_messages["no_name_and_phone"])
 def delete_phone(args, book: AddressBook):
+    """Remove phone from contact by name."""
     name, phone_to_del = args
     if book.delete_phone(name, phone_to_del):
         print_success(command_messages['phone_deleted'].format(name=name, phone=phone_to_del))
 
 @input_error(error_messages["no_name"])
 def show_phones(args, book: AddressBook):
+    """Show contact phones by name."""
     name = args[0]
     phones = book.show_phones(name)
     if phones:
@@ -70,6 +81,7 @@ def show_phones(args, book: AddressBook):
 # -- Email
 @input_error(error_messages["no_name_and_email"])
 def add_email(args, book: AddressBook):
+    """Add email to contact by name."""
     name, email = args
     if book.add_email(name, email):
         print_success(command_messages["email_added"])
@@ -226,3 +238,19 @@ def find_notes(args, book: AddressBook):
     tbl_data = tbl_data or ["", "", ""]
     tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
     print(str(tbl))
+
+@input_error(error_messages["no_name"])
+def rename(args, book: AddressBook):
+    """Rename contact.
+    
+    :name - present contact name
+    :new_name - new contact name."""
+    name = args[0]
+    new_name = args[1]
+    if new_name in book.data.keys():
+        print_error(error_messages["exist_contact"])
+        return False
+    else:
+        book.rename(name, new_name)
+        print_success(command_messages['contact_updated'].format(name=name))
+        return True
