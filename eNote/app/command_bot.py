@@ -1,12 +1,13 @@
-from eNote.constants.messages import command_messages, error_messages
-from eNote.app.AddressBook import AddressBook
-from eNote.utils.commands import handle_command, command_keys, command_parameters
-from eNote.utils.input_handlers import parse_input
-from eNote.utils.print_handlers import *
+"""Main module"""
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.formatted_text import HTML
 from prompt_toolkit.styles import Style
+from eNote.constants.messages import command_messages, error_messages
+from eNote.app.AddressBook import AddressBook
+from eNote.utils.commands import handle_command, command_keys, command_parameters
+from eNote.utils.input_handlers import parse_input
+from eNote.utils.print_handlers import print_error, print_hint
 
 # Define a custom style with a specific text color
 custom_style = Style.from_dict({
@@ -15,6 +16,7 @@ custom_style = Style.from_dict({
 })
 
 class CommandCompleter(Completer):
+    """Class for cli completer implementations."""
     def get_completions(self, document, complete_event):
         text_before_cursor = document.text_before_cursor
 
@@ -25,16 +27,16 @@ class CommandCompleter(Completer):
             command = ""
 
         # If there's a command and it is in the list
-        if command:            
+        if command:
             for cmd in command_keys:
                 if cmd.startswith(command) and cmd != command:
                     display_meta = HTML(
                         f'Params: <ansired>{" ".join(command_parameters[cmd])}</ansired>'
                     ) if cmd in command_parameters else 'Command'
                     yield Completion(
-                        cmd, 
-                        start_position=-len(command), 
-                        display=HTML(f'<ansiblue>{cmd}</ansiblue>: '), 
+                        cmd,
+                        start_position=-len(command),
+                        display=HTML(f'<ansiblue>{cmd}</ansiblue>: '),
                         display_meta=display_meta
                     )
 
@@ -42,12 +44,14 @@ class CommandCompleter(Completer):
 session = PromptSession(completer=CommandCompleter())
 
 def address_book_bot():
+    """Main function."""
     contacts = AddressBook()
 
     print_hint(command_messages["welcome"])
-    
-    handle_command('help', None, contacts) # TODO if no need to show help before start bot, simply remove it
-    
+
+    # TODO if no need to show help before start bot, simply remove it
+    handle_command('help', None, contacts)
+
     while True:
         user_input = session.prompt(command_messages["enter_command"], style=custom_style)
 
