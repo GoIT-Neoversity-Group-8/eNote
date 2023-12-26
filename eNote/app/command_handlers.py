@@ -32,7 +32,7 @@ def delete_contact(args, book: AddressBook):
 
 def show_all(args, book: AddressBook):
     if not book.data:
-        print(error_messages["no_contacts"])
+        print_error(error_messages["no_contacts"])
         return
     # Таблиця контактів
     print_book(book)
