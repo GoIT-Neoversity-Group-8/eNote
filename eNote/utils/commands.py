@@ -200,7 +200,7 @@ command_info = {
     },
     "delete-note": {
         "function": delete_note,
-        "example": "fdelete-note 'John'",
+        "example": "delete-note 'John'",
         "description": command_descriptions["delete_note"],
         "parameters": ["{name}"],
     },
