@@ -1,5 +1,6 @@
 """"Main class AddressBook."""
 import json
+import os
 from collections import UserDict
 from datetime import datetime, timedelta
 from eNote.utils.error_handlers import input_error
@@ -9,6 +10,8 @@ from eNote.constants.messages import error_messages, command_messages
 from eNote.app.Record import Record
 from eNote.app.Fields import Note
 
+home_path = os.path.expanduser("~")
+file_path = os.path.join(home_path, 'contacts.json')
 class AddressBook(UserDict):
     """Main class for addressbook.
 
@@ -43,12 +46,14 @@ class AddressBook(UserDict):
         record = None
         if name in self.data:
             record = self.data[name]
+            is_edit_contact = True
         else:
             if is_yes_prompt(command_messages["prompt_add_contact"].format(name=name)):
                 record = Record(name)
                 self.data[name] = record
+                is_edit_contact = False
         if bool(record):
-            cycled_command_handler(record, is_edit_contact=True)
+            cycled_command_handler(record, is_edit_contact)
             return True
 
     @input_error()
@@ -239,7 +244,7 @@ class AddressBook(UserDict):
 
     def save_data(self):
         """Save address book to file."""
-        with open('contacts.json', 'w', encoding="utf-8") as file:
+        with open(file_path, 'w', encoding="utf-8") as file:
             json_data = {}
             for name, contact in self.data.items():
                 json_data[name] = {
@@ -255,7 +260,7 @@ class AddressBook(UserDict):
     def load_data(self):
         """Load address book from file."""
         try:
-            with open('contacts.json', 'r', encoding="utf-8") as file:
+            with open(file_path, 'r', encoding="utf-8") as file:
                 json_data = json.load(file)
                 for name, contact_data in json_data.items():
                     self.data[name] = Record(
