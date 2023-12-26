@@ -3,6 +3,7 @@ import json
 import os
 from collections import UserDict
 from datetime import datetime, timedelta
+from copy import deepcopy
 from eNote.utils.error_handlers import input_error
 from eNote.utils.prompt_handlers import is_yes_prompt
 from eNote.utils.cycled_commands_handlers import cycled_command_handler
@@ -54,6 +55,19 @@ class AddressBook(UserDict):
                 is_edit_contact = False
         if bool(record):
             cycled_command_handler(record, is_edit_contact)
+            return True
+
+    @input_error()
+    def rename(self, name, new_name):
+        """Update contact in loop."""
+        record = None
+        if new_name in self.data.keys():
+            raise ValueError(error_messages["exist_contact"])
+        else:
+            record = Record(new_name, self.data[name].phone_str_list, self.data[name].birthday.value, self.data[name].email, self.data[name].address, self.data[name].note)
+            # record[new_name] = deepcopy(self.data[name][name])
+            self.data[new_name] = record
+            del self.data[name]
             return True
 
     @input_error()

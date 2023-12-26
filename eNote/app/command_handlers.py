@@ -238,3 +238,19 @@ def find_notes(args, book: AddressBook):
     tbl_data = tbl_data or ["", "", ""]
     tbl = tabulate(tbl_data, tbl_header, tablefmt="rounded_outline")
     print(str(tbl))
+
+@input_error(error_messages["no_name"])
+def rename(args, book: AddressBook):
+    """Rename contact.
+    
+    :name - present contact name
+    :new_name - new contact name."""
+    name = args[0]
+    new_name = args[1]
+    if new_name in book.data.keys():
+        print_error(error_messages["exist_contact"])
+        return False
+    else:
+        book.rename(name, new_name)
+        print_success(command_messages['contact_updated'].format(name=name))
+        return True
